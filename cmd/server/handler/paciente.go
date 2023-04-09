@@ -19,6 +19,16 @@ func NewPacienteHandler(s paciente.Service) *pacienteHandler {
 	}
 }
 
+// GetByID godoc
+// @Summary      GET paciente by ID
+// @Description  Obtiene un paciente por su ID
+// @Tags         domain.Paciente
+// @Produce      json
+// @Param        id path int true "Paciente Id"
+// @Success      200 {object}  web.response
+// @Failure      400 {object}  web.errorResponse
+// @Failure      404 {object}  web.errorResponse
+// @Router       /pacientes/:id [get]
 func (h *pacienteHandler) GetByID() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
@@ -41,6 +51,16 @@ func (h *pacienteHandler) GetByID() gin.HandlerFunc {
 
 }
 
+// Post godoc
+// @Summary      POST paciente
+// @Description  Crea un nuevo paciente
+// @Tags         domain.Paciente
+// @Produce      json
+// @Param        token header string true "token"
+// @Param        body body domain.Paciente true "Paciente"
+// @Success      201 {object} web.response
+// @Failure      400 {object} web.errorResponse
+// @Router       /pacientes [post]
 func (h *pacienteHandler) Post() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
@@ -80,6 +100,57 @@ func validarCamposPaciente(paciente *domain.Paciente) (bool, error) {
 
 }
 
+// func validateFormatoFecha(fecha string) (bool, error) {
+
+// 	partes := strings.Split(fecha, "/")
+
+// 	partes_number := []int{}
+
+// 	if len(partes) != 3 {
+// 		return false, errors.New("La fecha debe tener el formato dd/mm/yyyy")
+// 	}
+
+
+
+// 	for parte := range partes {
+// 		number, err := strconv.Atoi(partes[parte])
+// 		if err != nil {
+// 			return false, errors.New("Fecha inválida, debe contener solo números")
+// 		}
+// 		partes_number = append(partes_number, number)
+// 	}
+
+// 	condition := (partes_number[0] < 1 || partes_number[0] > 31) && (partes_number[1] < 1 || partes_number[1] > 12) && (list[2] < 1 || list[2] > 9999)
+
+// 	if condition {
+// 		return false, errors.New("invalid expiration date, date must be between 1 and 31/12/9999")
+// 	}
+
+// 	return true, nil
+
+// }
+
+// func validateDni(dni string) (string, error) {
+
+// 	valid_dni := strings.ReplaceAll(dni, ".", "")
+
+// 	return valid_dni, nil
+
+// }
+
+
+// Put godoc
+// @Summary      PUT paciente by ID
+// @Description  Actualiza un paciente por su ID
+// @Tags         domain.Paciente
+// @Produce      json
+// @Param        token header string true "token"
+// @Param        body body domain.Paciente true "Paciente"
+// @Param        id path int true "Odontologo Id"
+// @Success      200 {object} web.response
+// @Failure      400 {object} web.errorResponse
+// @Failure      404 {object} web.errorResponse
+// @Router       /pacientes/:id [put]
 func (h *pacienteHandler) Put() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
@@ -127,6 +198,18 @@ func (h *pacienteHandler) Put() gin.HandlerFunc {
 	}
 }
 
+// Patch godoc
+// @Summary      PATCH paciente by ID
+// @Description  Actualizar parcialmente un paciente por su ID
+// @Tags         domain.Paciente
+// @Produce      json
+// @Param        token header string true "token"
+// @Param        body body domain.Paciente true "Paciente"
+// @Param        id path int true "Paciente Id"
+// @Success      200 {object} web.response
+// @Failure      400 {object} web.errorResponse
+// @Failure      404 {object} web.errorResponse
+// @Router       /pacientes/:id [patch]
 func (h *pacienteHandler) Patch() gin.HandlerFunc {
 
 	type PatchRequest struct {
@@ -184,6 +267,17 @@ func (h *pacienteHandler) Patch() gin.HandlerFunc {
 	}
 }
 
+// Delete godoc
+// @Summary      DELETE paciente by ID
+// @Description  Elimina un paciente por su ID
+// @Tags         domain.Paciente
+// @Produce      json
+// @Param        token header string true "token"
+// @Param        id path int true "Odontologo Id"
+// @Success      200 {object} web.response
+// @Failure      400 {object} web.errorResponse
+// @Failure      404 {object} web.errorResponse
+// @Router       /pacientes/:id [delete]
 func (h *pacienteHandler) Delete() gin.HandlerFunc {
 
 	return func(c *gin.Context) {

@@ -12,9 +12,21 @@ import (
 	"tp_final/internal/paciente"
 	//"tp_final/internal/turno"
 	"tp_final/cmd/server/handler"
+	"tp_final/docs"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+	"os"
 	
 )
 
+// @title API consultorio odontológico
+// @version 1.0
+// @description Esta API permite realizar operaciones CRUD sobre la base de datos del consultorio, que contiene registros de odontólogos, pacientes y turnos
+// @termsOfService https://developers.ctd.com.ar/es_ar/terminos-y-condiciones
+// @contact.name API Support
+// @contact.url https://developers.ctd.com.ar/support
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 func main() {
 	
 	if err := godotenv.Load(".env"); err != nil {
@@ -43,6 +55,8 @@ func main() {
 	r.Use(gin.Recovery())
 	r.Use(middleware.Logger())
 
+	docs.SwaggerInfo.Host = os.Getenv("HOST")
+    r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	odontologos := r.Group("/odontologos")
 

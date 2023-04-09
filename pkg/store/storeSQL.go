@@ -206,8 +206,8 @@ func (s *sqlStore) ReadTurnoId(id int) (domain.Turno, error) {
 	return domain.Turno{}, nil
 }
 
-func (s *sqlStore) CreateTurno(turno domain.Turno) error {
-	return nil
+func (s *sqlStore) CreateTurno(turno domain.Turno) (domain.Turno, error) {
+	return domain.Turno{},nil
 }
 
 func (s *sqlStore) UpdateTurno(turno domain.Turno) error {
@@ -218,8 +218,8 @@ func (s *sqlStore) DeleteTurno(id int) error {
 	return nil
 }
 
-func (s *sqlStore) CreateTurnoDniMat(turno domain.TurnoAux) error {
-	return nil
+func (s *sqlStore) CreateTurnoDniMat(turno domain.TurnoAux) (domain.Turno, error) {
+	return domain.Turno{},nil
 }
 
 func (s *sqlStore) ReadTurnoDni(dni string) (domain.Turno, error) {

@@ -54,7 +54,7 @@ CREATE TABLE `pacientes` (
   `nombre` varchar(45) DEFAULT NULL,
   `apellido` varchar(45) DEFAULT NULL,
   `domicilio` varchar(45) DEFAULT NULL,
-  `dni` varchar(15) DEFAULT NULL,
+  `dni` varchar(45) DEFAULT NULL,
   `fecha_alta` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
@@ -109,4 +109,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-06 15:45:54
+-- Dump completed on 2023-04-09 12:13:04
