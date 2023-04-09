@@ -160,6 +160,12 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/web.errorResponse"
                         }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
                     }
                 }
             },
@@ -258,6 +264,12 @@ const docTemplate = `{
                     },
                     "404": {
                         "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
                         "schema": {
                             "$ref": "#/definitions/web.errorResponse"
                         }
@@ -401,6 +413,12 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/web.errorResponse"
                         }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
                     }
                 }
             },
@@ -502,6 +520,265 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/web.errorResponse"
                         }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/turnos": {
+            "post": {
+                "description": "Crea un nuevo turno con el ID del paciente y el ID del odontólogo",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "domain.Turno"
+                ],
+                "summary": "POST turno",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Turno",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.Turno"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/turnos/:id": {
+            "get": {
+                "description": "Obtiene un turno por su ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "domain.Turno"
+                ],
+                "summary": "GET turno by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Turno Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Actualiza un turno por su ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "domain.Turno"
+                ],
+                "summary": "PUT turno by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Turno",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.Turno"
+                        }
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Turno Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Elimina un turno por su ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "domain.Turno"
+                ],
+                "summary": "DELETE turno by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Turno Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Actualizar parcialmente un turno por su ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "domain.Turno"
+                ],
+                "summary": "PATCH turno by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Turno",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.Turno"
+                        }
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Turno Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
                     }
                 }
             }
@@ -557,6 +834,36 @@ const docTemplate = `{
                 },
                 "nombre": {
                     "type": "string"
+                }
+            }
+        },
+        "domain.Turno": {
+            "type": "object",
+            "required": [
+                "descripcion",
+                "fecha",
+                "hora",
+                "id_odontologo",
+                "id_paciente"
+            ],
+            "properties": {
+                "descripcion": {
+                    "type": "string"
+                },
+                "fecha": {
+                    "type": "string"
+                },
+                "hora": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "id_odontologo": {
+                    "type": "integer"
+                },
+                "id_paciente": {
+                    "type": "integer"
                 }
             }
         },

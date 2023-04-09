@@ -35,6 +35,27 @@ definitions:
     - fecha_alta
     - nombre
     type: object
+  domain.Turno:
+    properties:
+      descripcion:
+        type: string
+      fecha:
+        type: string
+      hora:
+        type: string
+      id:
+        type: integer
+      id_odontologo:
+        type: integer
+      id_paciente:
+        type: integer
+    required:
+    - descripcion
+    - fecha
+    - hora
+    - id_odontologo
+    - id_paciente
+    type: object
   web.errorResponse:
     properties:
       code:
@@ -182,6 +203,10 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/web.errorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/web.errorResponse'
       summary: PATCH odontologo by ID
       tags:
       - domain.Odontologo
@@ -217,6 +242,10 @@ paths:
             $ref: '#/definitions/web.errorResponse'
         "404":
           description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "409":
+          description: Conflict
           schema:
             $ref: '#/definitions/web.errorResponse'
       summary: PUT odontologo by ID
@@ -343,6 +372,10 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/web.errorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/web.errorResponse'
       summary: PATCH paciente by ID
       tags:
       - domain.Paciente
@@ -380,7 +413,180 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/web.errorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/web.errorResponse'
       summary: PUT paciente by ID
       tags:
       - domain.Paciente
+  /turnos:
+    post:
+      description: Crea un nuevo turno con el ID del paciente y el ID del odontólogo
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Turno
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Turno'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/web.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: POST turno
+      tags:
+      - domain.Turno
+  /turnos/:id:
+    delete:
+      description: Elimina un turno por su ID
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Turno Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: DELETE turno by ID
+      tags:
+      - domain.Turno
+    get:
+      description: Obtiene un turno por su ID
+      parameters:
+      - description: Turno Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: GET turno by ID
+      tags:
+      - domain.Turno
+    patch:
+      description: Actualizar parcialmente un turno por su ID
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Turno
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Turno'
+      - description: Turno Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: PATCH turno by ID
+      tags:
+      - domain.Turno
+    put:
+      description: Actualiza un turno por su ID
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Turno
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Turno'
+      - description: Turno Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: PUT turno by ID
+      tags:
+      - domain.Turno
 swagger: "2.0"

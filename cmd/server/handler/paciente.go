@@ -150,6 +150,7 @@ func validarCamposPaciente(paciente *domain.Paciente) (bool, error) {
 // @Success      200 {object} web.response
 // @Failure      400 {object} web.errorResponse
 // @Failure      404 {object} web.errorResponse
+// @Failure      409 {object} web.errorResponse
 // @Router       /pacientes/:id [put]
 func (h *pacienteHandler) Put() gin.HandlerFunc {
 
@@ -209,6 +210,7 @@ func (h *pacienteHandler) Put() gin.HandlerFunc {
 // @Success      200 {object} web.response
 // @Failure      400 {object} web.errorResponse
 // @Failure      404 {object} web.errorResponse
+// @Failure      409 {object} web.errorResponse
 // @Router       /pacientes/:id [patch]
 func (h *pacienteHandler) Patch() gin.HandlerFunc {
 

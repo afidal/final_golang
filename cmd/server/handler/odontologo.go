@@ -113,6 +113,7 @@ func validarCamposOdontologo(odontologo *domain.Odontologo) (bool, error) {
 // @Success      200 {object}  web.response
 // @Failure      400 {object}  web.errorResponse
 // @Failure      404 {object}  web.errorResponse
+// @Failure      409 {object} web.errorResponse
 // @Router       /odontologos/:id [put]
 func (h *odontologoHandler) Put() gin.HandlerFunc {
 
@@ -172,6 +173,7 @@ func (h *odontologoHandler) Put() gin.HandlerFunc {
 // @Success      200 {object}  web.response
 // @Failure      400 {object}  web.errorResponse
 // @Failure      404 {object}  web.errorResponse
+// @Failure      409 {object} web.errorResponse
 // @Router       /odontologos/:id [patch]
 func (h *odontologoHandler) Patch() gin.HandlerFunc {
 

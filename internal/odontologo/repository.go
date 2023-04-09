@@ -59,7 +59,7 @@ func (r *repository) Update(id int, odontologo domain.Odontologo) error {
 
 	err = r.storage.UpdateOdontologo(odontologo)
 	if err != nil {
-		return errors.New("Se produjo un error modificando al odontólogo solicitado")
+		return errors.New("Se produjo un error modificando el odontólogo solicitado")
 	}
 
 	return nil

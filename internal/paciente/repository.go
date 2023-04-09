@@ -8,7 +8,7 @@ import (
 
 type Repository interface {
 	GetByID(id int) (domain.Paciente, error)
-	Create(odontologo domain.Paciente) (domain.Paciente, error)
+	Create(paciente domain.Paciente) (domain.Paciente, error)
 	Update(id int, paciente domain.Paciente) error
 	Delete(id int) error
 }
@@ -48,7 +48,7 @@ func (r *repository) Update(id int, paciente domain.Paciente) error {
 
 	_, err := r.storage.ReadPaciente(id)
 	if err != nil {
-		return errors.New("No se ha encontrado al paciente solicitado")
+		return errors.New("No se ha encontrado el paciente solicitado")
 	}
 
 	// if pa.Matricula != odontologo.Matricula {
@@ -59,7 +59,7 @@ func (r *repository) Update(id int, paciente domain.Paciente) error {
 
 	err = r.storage.UpdatePaciente(paciente)
 	if err != nil {
-		return errors.New("Se produjo un error modificando al paciente solicitado")
+		return errors.New("Se produjo un error modificando el paciente solicitado")
 	}
 
 	return nil

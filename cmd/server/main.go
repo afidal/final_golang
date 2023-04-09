@@ -10,7 +10,7 @@ import (
 	"tp_final/pkg/middleware"
 	"tp_final/internal/odontologo"
 	"tp_final/internal/paciente"
-	//"tp_final/internal/turno"
+	"tp_final/internal/turno"
 	"tp_final/cmd/server/handler"
 	"tp_final/docs"
 	swaggerFiles "github.com/swaggo/files"
@@ -47,9 +47,9 @@ func main() {
 	pacienteService := paciente.NewPacienteService(pacienteRepository)
 	pacienteHandler := handler.NewPacienteHandler(pacienteService)
 
-	// turnoRepository := turno.NewTurnoRepository(storage)
-	// turnoService := turno.NewTurnoService(turnoRepository)
-	// turnoHandler := handler.NewTurnoHandler(turnoService)
+	turnoRepository := turno.NewTurnoRepository(storage)
+	turnoService := turno.NewTurnoService(turnoRepository)
+	turnoHandler := handler.NewTurnoHandler(turnoService)
 
 	r := gin.New()
 	r.Use(gin.Recovery())
@@ -78,18 +78,17 @@ func main() {
 		pacientes.DELETE(":id", middleware.Authentication(), pacienteHandler.Delete())
 	}
 
-	// turnos := r.Group("/turnos")
+	turnos := r.Group("/turnos")
 
-	// {
-	// 	turnos.POST("", middleware.Authentication(),turnoHandler.Post())
-	// 	turnos.GET(":id", turnoHandler.GetByID())
-	// 	turnos.PATCH(":id", middleware.Authentication(), turnoHandler.Patch())
-	// 	turnos.PUT(":id", middleware.Authentication(), turnoHandler.Put())
-	// 	turnos.DELETE(":id", middleware.Authentication(), turnoHandler.Delete())
-	// 	// Revisar
-	// 	turnos.POST("", middleware.Authentication(),turnoHandler.PostDniMat())
-	// 	turnos.GET("", turnoHandler.GetByDNI())
-	// }
+	{
+		turnos.POST("", middleware.Authentication(),turnoHandler.Post())
+		turnos.GET(":id", turnoHandler.GetByID())
+		turnos.PATCH(":id", middleware.Authentication(), turnoHandler.Patch())
+		turnos.PUT(":id", middleware.Authentication(), turnoHandler.Put())
+		turnos.DELETE(":id", middleware.Authentication(), turnoHandler.Delete())
+		// turnos.POST("", middleware.Authentication(),turnoHandler.PostDniMat())
+		//turnos.GET("", turnoHandler.GetByDNI())
+	}
 
 	r.Run(":8080")
 
