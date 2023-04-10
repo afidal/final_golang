@@ -81,7 +81,6 @@ func (h *pacienteHandler) Post() gin.HandlerFunc {
 		}
 
 
-
 		pacienteCreado, err := h.s.Create(paciente)
 		if err != nil {
 			web.Failure(c, 400, err)

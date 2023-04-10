@@ -28,6 +28,8 @@ type StoreInterface interface {
 
 	DeletePaciente(id int) error
 
+	DniExists(dni string) bool
+
 	// Turno
 
 	ReadTurnoId(id int) (domain.Turno, error)

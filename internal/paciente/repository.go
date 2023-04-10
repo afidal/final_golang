@@ -33,9 +33,9 @@ func (r *repository) GetByID(id int) (domain.Paciente, error) {
 
 func (r *repository) Create(paciente domain.Paciente) (domain.Paciente, error) {
 
-	// if r.storage.MatriculaExists(odontologo.Matricula) {
-	// 	return domain.Odontologo{}, errors.New("Ya hay un odontólogo registrado con la misma matrícula")
-	// }
+	if r.storage.DniExists(paciente.Dni) {
+		return domain.Paciente{}, errors.New("Ya hay un paciente registrado con el mismo DNI")
+	}
 
 	paciente, err := r.storage.CreatePaciente(paciente)
 	if err != nil {
@@ -46,16 +46,16 @@ func (r *repository) Create(paciente domain.Paciente) (domain.Paciente, error) {
 
 func (r *repository) Update(id int, paciente domain.Paciente) error {
 
-	_, err := r.storage.ReadPaciente(id)
+	p, err := r.storage.ReadPaciente(id)
 	if err != nil {
 		return errors.New("No se ha encontrado el paciente solicitado")
 	}
 
-	// if pa.Matricula != odontologo.Matricula {
-	// 	if r.storage.MatriculaExists(odontologo.Matricula){
-	// 		return errors.New("Ya hay un odontólogo registrado con la misma matrícula")
-	// 	}
-	// }
+	if p.Dni != paciente.Dni {
+		if r.storage.DniExists(paciente.Dni){
+			return errors.New("Ya hay un paciente registrado con el mismo DNI")
+		}
+	}
 
 	err = r.storage.UpdatePaciente(paciente)
 	if err != nil {

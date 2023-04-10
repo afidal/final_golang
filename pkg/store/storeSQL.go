@@ -205,6 +205,26 @@ func (s *sqlStore) DeletePaciente(id int) error {
 
 }
 
+// Verifica si ya existe un paciente con el mismo DNI en la base de datos
+// Asumimos que el DNI es único
+func (s *sqlStore) DniExists(dni string) bool {
+
+	var id int
+
+	row := s.db.QueryRow("SELECT id FROM pacientes WHERE dni = ?;", dni)
+
+	err := row.Scan(&id)
+	if err != nil {
+		return false
+	}
+
+	if id > 0 {
+		return true
+	}
+
+	return false
+}
+
 // Turno
 
 func (s *sqlStore) ReadTurnoId(id int) (domain.Turno, error) {
@@ -221,7 +241,7 @@ func (s *sqlStore) ReadTurnoId(id int) (domain.Turno, error) {
 	return turno, nil
 }
 
-// Verifica si el paciente y el odontologo existen en la base de datos
+// Verifica si el paciente y el odontologo existen en la base de datos 
 func (s *sqlStore) ValidarOdontologoPacienteExist (turno domain.Turno) error {
 
 	_, err := s.ReadOdontologo(turno.IdOdontologo)

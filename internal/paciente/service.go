@@ -10,7 +10,7 @@ type Service interface {
 	Create(paciente domain.Paciente) (domain.Paciente, error)
 	Update(id int, paciente domain.Paciente) (error)
 	Delete(id int) error
-
+	
 }
 
 type service struct {
