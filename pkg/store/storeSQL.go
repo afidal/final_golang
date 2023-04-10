@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"tp_final/internal/domain"
+	"fmt"
 )
 
 type sqlStore struct {
@@ -24,6 +25,7 @@ func (s *sqlStore) ReadOdontologo(id int) (domain.Odontologo, error) {
 
 	query := "SELECT * FROM odontologos WHERE id = ?;"
 	row := s.db.QueryRow(query, id)
+	fmt.Println(*row)
 	err := row.Scan(&odontologo.Id, &odontologo.Nombre, &odontologo.Apellido, &odontologo.Matricula)
 	if err != nil {
 		return domain.Odontologo{}, err
@@ -233,6 +235,7 @@ func (s *sqlStore) ReadTurnoId(id int) (domain.Turno, error) {
 
 	query := "SELECT * FROM turnos WHERE id = ?;"
 	row := s.db.QueryRow(query, id)
+	fmt.Println("ID",*row)
 	err := row.Scan(&turno.Id, &turno.IdPaciente, &turno.IdOdontologo, &turno.Fecha, &turno.Hora, &turno.Descripcion)
 	if err != nil {
 		return domain.Turno{}, err
@@ -241,8 +244,8 @@ func (s *sqlStore) ReadTurnoId(id int) (domain.Turno, error) {
 	return turno, nil
 }
 
-// Verifica si el paciente y el odontologo existen en la base de datos 
-func (s *sqlStore) ValidarOdontologoPacienteExist (turno domain.Turno) error {
+// Verifica si el paciente y el odontologo existen en la base de datos
+func (s *sqlStore) ValidarOdontologoPacienteExist(turno domain.Turno) error {
 
 	_, err := s.ReadOdontologo(turno.IdOdontologo)
 	if err != nil {
@@ -269,7 +272,6 @@ func (s *sqlStore) CreateTurno(turno domain.Turno) (domain.Turno, error) {
 
 	defer stmt.Close()
 
-
 	result, err := stmt.Exec(turno.IdPaciente, turno.IdOdontologo, turno.Fecha, turno.Hora, turno.Descripcion)
 	if err != nil {
 		return domain.Turno{}, err
@@ -288,7 +290,6 @@ func (s *sqlStore) CreateTurno(turno domain.Turno) (domain.Turno, error) {
 }
 
 func (s *sqlStore) UpdateTurno(turno domain.Turno) error {
-
 
 	stmt, err := s.db.Prepare("UPDATE turnos SET id_paciente = ?, id_odontologo = ?, fecha = ?, hora = ?, descripcion = ? WHERE id = ?;")
 	if err != nil {
@@ -333,6 +334,26 @@ func (s *sqlStore) CreateTurnoDniMat(turno domain.TurnoAux) (domain.Turno, error
 	return domain.Turno{}, nil
 }
 
-func (s *sqlStore) ReadTurnoDni(dni string) ([]domain.Turno, error) {
-	return []domain.Turno{}, nil
+func (s *sqlStore) ReadTurnoDni(dni string) ([]domain.TurnoDatos, error) {
+
+	var turnos []domain.TurnoDatos
+	
+
+	query := "SELECT t.id, o.*, p.* , t.fecha, t.hora, t.descripcion FROM turnos t INNER JOIN odontologos o ON o.id = t.id_odontologo INNER JOIN pacientes p ON p.id = t.id_paciente WHERE p.dni = ?;"
+	rows, err := s.db.Query(query, dni)
+	if err != nil {
+		return []domain.TurnoDatos{}, err
+	}
+
+	for rows.Next() {
+		var turno domain.TurnoDatos
+		err := rows.Scan(&turno.Id, &turno.Odontologo.Id, &turno.Odontologo.Nombre, &turno.Odontologo.Apellido, &turno.Odontologo.Matricula, &turno.Paciente.Id, &turno.Paciente.Nombre, &turno.Paciente.Apellido, &turno.Paciente.Domicilio, &turno.Paciente.Dni, &turno.Paciente.FechaAlta, &turno.Fecha, &turno.Hora, &turno.Descripcion)
+		if err != nil {
+			return []domain.TurnoDatos{}, err
+		}
+
+		turnos = append(turnos, turno)
+	}
+
+	return turnos, nil
 }

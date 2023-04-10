@@ -48,7 +48,7 @@ func main() {
 	pacienteHandler := handler.NewPacienteHandler(pacienteService)
 
 	turnoRepository := turno.NewTurnoRepository(storage)
-	turnoService := turno.NewTurnoService(turnoRepository, odontologoRepository, pacienteRepository)
+	turnoService := turno.NewTurnoService(turnoRepository)
 	turnoHandler := handler.NewTurnoHandler(turnoService)
 
 	r := gin.New()
@@ -87,7 +87,7 @@ func main() {
 		turnos.PUT(":id", middleware.Authentication(), turnoHandler.Put())
 		turnos.DELETE(":id", middleware.Authentication(), turnoHandler.Delete())
 		// turnos.POST("", middleware.Authentication(),turnoHandler.PostDniMat())
-		//turnos.GET("", turnoHandler.GetByDNI())
+		turnos.GET("", turnoHandler.GetByDNI())
 	}
 
 	r.Run(":8080")

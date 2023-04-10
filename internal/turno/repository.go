@@ -11,7 +11,7 @@ type Repository interface {
 	Create(turno domain.Turno) (domain.Turno, error)
 	Update(id int, turno domain.Turno) error
 	Delete(id int) error
-	//GetByDNI(dni string) ([]domain.Turno, error)
+	GetByDNI(dni string) ([]domain.TurnoDatos, error)
 }
 
 type repository struct {
@@ -75,5 +75,15 @@ func (r *repository) Delete(id int) error {
 	}
 
 	return nil
+
+}
+
+func (r *repository) GetByDNI(dni string) ([]domain.TurnoDatos, error) {
+
+	turnos, err := r.storage.ReadTurnoDni(dni)
+	if err != nil {
+		return []domain.TurnoDatos{}, errors.New("No se ha encontrado al turno solicitado")
+	}
+	return turnos, nil
 
 }

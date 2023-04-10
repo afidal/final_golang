@@ -3,10 +3,9 @@ package handler
 import (
 	"errors"
 	"strconv"
-	"tp_final/internal/domain"
 	"tp_final/internal/turno"
+	"tp_final/internal/domain"
 	"tp_final/pkg/web"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -26,9 +25,9 @@ func NewTurnoHandler(s turno.Service) *turnoHandler {
 // @Tags         domain.Turno
 // @Produce      json
 // @Param        id path int true "Turno Id"
-// @Success      200 {object}  web.response
-// @Failure      400 {object}  web.errorResponse
-// @Failure      404 {object}  web.errorResponse
+// @Success      200 {object} web.response
+// @Failure      400 {object} web.errorResponse
+// @Failure      404 {object} web.errorResponse
 // @Router       /turnos/:id [get]
 func (h *turnoHandler) GetByID() gin.HandlerFunc {
 
@@ -259,4 +258,29 @@ func (h *turnoHandler) Delete() gin.HandlerFunc {
 		}
 		web.Success(c, 200, nil)
 	}
+}
+
+// GetByDNI godoc
+// @Summary      GET turnos by DNI
+// @Description  Obtiene una lista de turnos por DNI
+// @Tags         domain.Turno
+// @Produce      json
+// @Param        dni query string true "Turno Dni"
+// @Success      200 {object} web.response
+// @Failure      404 {object} web.errorResponse
+// @Router       /turnos [get]
+func (h *turnoHandler) GetByDNI() gin.HandlerFunc {
+
+	return func(c *gin.Context) {
+
+		dniParam := c.Query("dni")
+
+		turnos, err := h.s.GetByDNI(dniParam)
+		if err != nil {
+			web.Failure(c, 404, errors.New("No se han encontrado turnos con el DNI ingresado"))
+			return
+		}
+		web.Success(c, 200, turnos)
+	}
+
 }

@@ -42,7 +42,7 @@ type StoreInterface interface {
 
 	CreateTurnoDniMat(turno domain.TurnoAux) (domain.Turno, error)
 
-	ReadTurnoDni(dni string) ([]domain.Turno, error)
+	ReadTurnoDni(dni string) ([]domain.TurnoDatos, error)
 
 	ValidarOdontologoPacienteExist(turno domain.Turno) error
 
