@@ -19,7 +19,7 @@ type StoreInterface interface {
 	MatriculaExists(matricula string) bool
 
 	// Paciente
-	
+
 	ReadPaciente(id int) (domain.Paciente, error)
 
 	CreatePaciente(paciente domain.Paciente) (domain.Paciente, error)
@@ -40,10 +40,9 @@ type StoreInterface interface {
 
 	DeleteTurno(id int) error
 
-	CreateTurnoDniMat(turno domain.TurnoAux) (domain.Turno, error)
-
 	ReadTurnoDni(dni string) ([]domain.TurnoDatos, error)
 
-	ValidarOdontologoPacienteExist(turno domain.Turno) error
+	CreateTurnoDniMat(turno domain.TurnoAux) (domain.TurnoAux, error)
 
+	ValidarOdontologoPacienteExist(turno domain.Turno) error
 }

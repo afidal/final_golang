@@ -86,8 +86,8 @@ func main() {
 		turnos.PATCH(":id", middleware.Authentication(), turnoHandler.Patch())
 		turnos.PUT(":id", middleware.Authentication(), turnoHandler.Put())
 		turnos.DELETE(":id", middleware.Authentication(), turnoHandler.Delete())
-		// turnos.POST("", middleware.Authentication(),turnoHandler.PostDniMat())
 		turnos.GET("", turnoHandler.GetByDNI())
+		turnos.POST("/DniMat", middleware.Authentication(),turnoHandler.PostDniMat())
 	}
 
 	r.Run(":8080")

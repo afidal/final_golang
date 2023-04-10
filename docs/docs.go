@@ -815,6 +815,50 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/turnos/DniMat": {
+            "post": {
+                "description": "Crea un nuevo turno con el DNI del paciente y la matrícula del odontólogo",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "domain.TurnoAux"
+                ],
+                "summary": "POST turno con DNI y Matrícula",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "TurnoAux",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.TurnoAux"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -897,6 +941,36 @@ const docTemplate = `{
                 },
                 "id_paciente": {
                     "type": "integer"
+                }
+            }
+        },
+        "domain.TurnoAux": {
+            "type": "object",
+            "required": [
+                "descripcion",
+                "dni_paciente",
+                "fecha",
+                "hora",
+                "matricula_odontologo"
+            ],
+            "properties": {
+                "descripcion": {
+                    "type": "string"
+                },
+                "dni_paciente": {
+                    "type": "string"
+                },
+                "fecha": {
+                    "type": "string"
+                },
+                "hora": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "matricula_odontologo": {
+                    "type": "string"
                 }
             }
         },

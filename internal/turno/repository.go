@@ -12,6 +12,7 @@ type Repository interface {
 	Update(id int, turno domain.Turno) error
 	Delete(id int) error
 	GetByDNI(dni string) ([]domain.TurnoDatos, error)
+	CreateDniMat(turno domain.TurnoAux) (domain.TurnoAux, error)
 }
 
 type repository struct {
@@ -86,4 +87,13 @@ func (r *repository) GetByDNI(dni string) ([]domain.TurnoDatos, error) {
 	}
 	return turnos, nil
 
+}
+
+func (r *repository) CreateDniMat(turno domain.TurnoAux) (domain.TurnoAux, error) {
+
+	turno, err := r.storage.CreateTurnoDniMat(turno)
+	if err != nil {
+		return domain.TurnoAux{}, errors.New("Se produjo un error cargando un nuevo turno")
+	}
+	return turno, nil
 }

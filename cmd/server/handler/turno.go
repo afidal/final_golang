@@ -284,3 +284,52 @@ func (h *turnoHandler) GetByDNI() gin.HandlerFunc {
 	}
 
 }
+
+// Post godoc
+// @Summary      POST turno con DNI y Matrícula
+// @Description  Crea un nuevo turno con el DNI del paciente y la matrícula del odontólogo
+// @Tags         domain.TurnoAux
+// @Produce      json
+// @Param        token header string true "token"
+// @Param        body body domain.TurnoAux true "TurnoAux"
+// @Success      201 {object} web.response
+// @Failure      400 {object} web.errorResponse
+// @Router       /turnos/DniMat [post]
+func (h *turnoHandler) PostDniMat() gin.HandlerFunc {
+
+	return func(c *gin.Context) {
+
+		var turno domain.TurnoAux
+
+		err := c.ShouldBindJSON(&turno)
+		if err != nil {
+			web.Failure(c, 400, errors.New("Json inválido"))
+			return
+		}
+
+		camposValidos, err := validarCamposTurnoAux(&turno)
+		if !camposValidos {
+			web.Failure(c, 400, err)
+			return
+		}
+
+		turnoCreado, err := h.s.CreateDniMat(turno)
+		if err != nil {
+			web.Failure(c, 400, err)
+			return
+		}
+		web.Success(c, 201, turnoCreado)
+
+	}
+
+}
+
+func validarCamposTurnoAux(turno *domain.TurnoAux) (bool, error) {
+
+	if turno.DniPaciente == "" || turno.MatriculaOdontologo == "" || turno.Fecha == "" || turno.Hora == "" || turno.Descripcion == "" {
+		return false, errors.New("Ha ocurrido un error. Debe completar todos los campos")
+	}
+
+	return true, nil
+
+}

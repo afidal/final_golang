@@ -19,6 +19,7 @@ type TurnoDatos struct {
 }
 
 type TurnoAux struct {
+	Id                  int    `json:"id"`
 	DniPaciente         string `json:"dni_paciente" binding:"required"`
 	MatriculaOdontologo string `json:"matricula_odontologo" binding:"required"`
 	Fecha               string `json:"fecha" binding:"required"`

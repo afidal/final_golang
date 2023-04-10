@@ -11,6 +11,7 @@ type Service interface {
 	Update(id int, turno domain.Turno) (error)
 	Delete(id int) error
 	GetByDNI(dni string) ([]domain.TurnoDatos, error)
+	CreateDniMat(turno domain.TurnoAux) (domain.TurnoAux, error)
 
 }
 
@@ -95,5 +96,16 @@ func (s *service) GetByDNI(dni string) ([]domain.TurnoDatos, error) {
 		return []domain.TurnoDatos{}, err
 	}
 	return turnos, nil
+
+}
+
+func (s *service) CreateDniMat(turno domain.TurnoAux) (domain.TurnoAux, error) {
+
+	t, err := s.r.CreateDniMat(turno)
+	if err != nil {
+		return domain.TurnoAux{}, err
+	}
+
+	return t, nil
 
 }

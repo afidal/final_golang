@@ -330,23 +330,22 @@ func (s *sqlStore) DeleteTurno(id int) error {
 	return nil
 }
 
-func (s *sqlStore) CreateTurnoDniMat(turno domain.TurnoAux) (domain.Turno, error) {
-	return domain.Turno{}, nil
-}
 
 func (s *sqlStore) ReadTurnoDni(dni string) ([]domain.TurnoDatos, error) {
 
 	var turnos []domain.TurnoDatos
+	var turno domain.TurnoDatos
 	
-
 	query := "SELECT t.id, o.*, p.* , t.fecha, t.hora, t.descripcion FROM turnos t INNER JOIN odontologos o ON o.id = t.id_odontologo INNER JOIN pacientes p ON p.id = t.id_paciente WHERE p.dni = ?;"
 	rows, err := s.db.Query(query, dni)
 	if err != nil {
 		return []domain.TurnoDatos{}, err
 	}
 
+	defer rows.Close()
+
 	for rows.Next() {
-		var turno domain.TurnoDatos
+		
 		err := rows.Scan(&turno.Id, &turno.Odontologo.Id, &turno.Odontologo.Nombre, &turno.Odontologo.Apellido, &turno.Odontologo.Matricula, &turno.Paciente.Id, &turno.Paciente.Nombre, &turno.Paciente.Apellido, &turno.Paciente.Domicilio, &turno.Paciente.Dni, &turno.Paciente.FechaAlta, &turno.Fecha, &turno.Hora, &turno.Descripcion)
 		if err != nil {
 			return []domain.TurnoDatos{}, err
@@ -356,4 +355,60 @@ func (s *sqlStore) ReadTurnoDni(dni string) ([]domain.TurnoDatos, error) {
 	}
 
 	return turnos, nil
+}
+
+
+func (s *sqlStore) CreateTurnoDniMat(taux domain.TurnoAux) (domain.TurnoAux, error) {
+
+	// 1 - Buscamos a que id de paciente corresponde el dni
+	
+	var idPaciente int
+
+	row := s.db.QueryRow("SELECT id FROM pacientes WHERE dni = ?;", taux.DniPaciente)
+
+	err := row.Scan(&idPaciente)
+	if err != nil {
+		return domain.TurnoAux{}, err
+	}
+
+	fmt.Println("Id Paciente:", idPaciente)
+
+	// 2 - Buscamos a que id de odontologo corresponde la matricula
+
+	var idOdontologo int
+
+	row = s.db.QueryRow("SELECT id FROM odontologos WHERE matricula = ?;", taux.MatriculaOdontologo)
+	
+	err = row.Scan(&idOdontologo)
+	if err != nil {
+		return domain.TurnoAux{}, err
+	}
+	
+	fmt.Println("Id Odontologo:", idOdontologo)
+
+	// Creamos el turno
+
+	query := "INSERT INTO turnos (id_paciente, id_odontologo, fecha, hora, descripcion) VALUES (?, ?, ?, ?, ?);"
+
+	stmt, err := s.db.Prepare(query)
+	if err != nil {
+		return domain.TurnoAux{}, err
+	}
+
+	defer stmt.Close()
+
+	result, err := stmt.Exec(idPaciente, idOdontologo, taux.Fecha, taux.Hora, taux.Descripcion)
+	if err != nil {
+		return domain.TurnoAux{}, err
+	}
+
+	_, err = result.RowsAffected()
+	if err != nil {
+		return domain.TurnoAux{}, err
+	}
+
+	lastID, _ := result.LastInsertId()
+	taux.Id = int(lastID)
+
+	return taux, nil
 }
