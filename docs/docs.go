@@ -531,6 +531,39 @@ const docTemplate = `{
             }
         },
         "/turnos": {
+            "get": {
+                "description": "Obtiene una lista de turnos por DNI",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "domain.Turno"
+                ],
+                "summary": "GET turnos by DNI",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Turno Dni",
+                        "name": "dni",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "Crea un nuevo turno con el ID del paciente y el ID del odontólogo",
                 "produces": [

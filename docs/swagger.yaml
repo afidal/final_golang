@@ -421,6 +421,28 @@ paths:
       tags:
       - domain.Paciente
   /turnos:
+    get:
+      description: Obtiene una lista de turnos por DNI
+      parameters:
+      - description: Turno Dni
+        in: query
+        name: dni
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: GET turnos by DNI
+      tags:
+      - domain.Turno
     post:
       description: Crea un nuevo turno con el ID del paciente y el ID del odontólogo
       parameters:
