@@ -48,7 +48,7 @@ func main() {
 	pacienteHandler := handler.NewPacienteHandler(pacienteService)
 
 	turnoRepository := turno.NewTurnoRepository(storage)
-	turnoService := turno.NewTurnoService(turnoRepository)
+	turnoService := turno.NewTurnoService(turnoRepository, odontologoRepository, pacienteRepository)
 	turnoHandler := handler.NewTurnoHandler(turnoService)
 
 	r := gin.New()

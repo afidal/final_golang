@@ -42,4 +42,6 @@ type StoreInterface interface {
 
 	ReadTurnoDni(dni string) ([]domain.Turno, error)
 
+	ValidarOdontologoPacienteExist(turno domain.Turno) error
+
 }

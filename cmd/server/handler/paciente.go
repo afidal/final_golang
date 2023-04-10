@@ -7,6 +7,7 @@ import (
 	"tp_final/internal/paciente"
 	"tp_final/pkg/web"
 	"github.com/gin-gonic/gin"
+	"strings"
 )
 
 type pacienteHandler struct {
@@ -79,6 +80,8 @@ func (h *pacienteHandler) Post() gin.HandlerFunc {
 			return
 		}
 
+
+
 		pacienteCreado, err := h.s.Create(paciente)
 		if err != nil {
 			web.Failure(c, 400, err)
@@ -100,43 +103,14 @@ func validarCamposPaciente(paciente *domain.Paciente) (bool, error) {
 
 }
 
-// func validateFormatoFecha(fecha string) (bool, error) {
 
-// 	partes := strings.Split(fecha, "/")
+func validateDni(dni string) string {
 
-// 	partes_number := []int{}
+	valid_dni := strings.ReplaceAll(dni, ".", "")
 
-// 	if len(partes) != 3 {
-// 		return false, errors.New("La fecha debe tener el formato dd/mm/yyyy")
-// 	}
+	return valid_dni
 
-
-
-// 	for parte := range partes {
-// 		number, err := strconv.Atoi(partes[parte])
-// 		if err != nil {
-// 			return false, errors.New("Fecha inválida, debe contener solo números")
-// 		}
-// 		partes_number = append(partes_number, number)
-// 	}
-
-// 	condition := (partes_number[0] < 1 || partes_number[0] > 31) && (partes_number[1] < 1 || partes_number[1] > 12) && (list[2] < 1 || list[2] > 9999)
-
-// 	if condition {
-// 		return false, errors.New("invalid expiration date, date must be between 1 and 31/12/9999")
-// 	}
-
-// 	return true, nil
-
-// }
-
-// func validateDni(dni string) (string, error) {
-
-// 	valid_dni := strings.ReplaceAll(dni, ".", "")
-
-// 	return valid_dni, nil
-
-// }
+}
 
 
 // Put godoc

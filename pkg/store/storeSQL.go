@@ -221,6 +221,23 @@ func (s *sqlStore) ReadTurnoId(id int) (domain.Turno, error) {
 	return turno, nil
 }
 
+// Verifica si el paciente y el odontologo existen en la base de datos
+func (s *sqlStore) ValidarOdontologoPacienteExist (turno domain.Turno) error {
+
+	_, err := s.ReadOdontologo(turno.IdOdontologo)
+	if err != nil {
+		return errors.New("El odontólogo al que se quiere asignar el turno no existe en la base de datos")
+	}
+
+	_, err = s.ReadPaciente(turno.IdPaciente)
+	if err != nil {
+		return errors.New("El paciente al que se quiere asignar el turno no existe en la base de datos")
+	}
+
+	return nil
+
+}
+
 func (s *sqlStore) CreateTurno(turno domain.Turno) (domain.Turno, error) {
 
 	query := "INSERT INTO turnos (id_paciente, id_odontologo, fecha, hora, descripcion) VALUES (?, ?, ?, ?, ?);"
@@ -231,6 +248,7 @@ func (s *sqlStore) CreateTurno(turno domain.Turno) (domain.Turno, error) {
 	}
 
 	defer stmt.Close()
+
 
 	result, err := stmt.Exec(turno.IdPaciente, turno.IdOdontologo, turno.Fecha, turno.Hora, turno.Descripcion)
 	if err != nil {
@@ -250,6 +268,7 @@ func (s *sqlStore) CreateTurno(turno domain.Turno) (domain.Turno, error) {
 }
 
 func (s *sqlStore) UpdateTurno(turno domain.Turno) error {
+
 
 	stmt, err := s.db.Prepare("UPDATE turnos SET id_paciente = ?, id_odontologo = ?, fecha = ?, hora = ?, descripcion = ? WHERE id = ?;")
 	if err != nil {

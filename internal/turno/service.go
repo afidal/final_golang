@@ -2,6 +2,8 @@ package turno
 
 import (
 	"tp_final/internal/domain"
+	"tp_final/internal/odontologo"
+	"tp_final/internal/paciente"
 )
 
 type Service interface {
@@ -15,10 +17,12 @@ type Service interface {
 
 type service struct {
 	r Repository
+	r0 odontologo.Repository
+	rp paciente.Repository
 }
 
-func NewTurnoService(r Repository) Service {
-	return &service{r}
+func NewTurnoService(r Repository, r0 odontologo.Repository, rp paciente.Repository) Service {
+	return &service{r, r0, rp}
 }
 
 func (s *service) GetByID(id int) (domain.Turno, error) {
@@ -32,12 +36,12 @@ func (s *service) GetByID(id int) (domain.Turno, error) {
 
 func (s *service) Create(turno domain.Turno) (domain.Turno, error) {
 
-	turno, err := s.r.Create(turno)
+	t, err := s.r.Create(turno)
 	if err != nil {
 		return domain.Turno{}, err
 	}
 
-	return turno, nil
+	return t, nil
 
 }
 

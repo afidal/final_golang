@@ -34,9 +34,12 @@ func (r *repository) GetByID(id int) (domain.Turno, error) {
 
 func (r *repository) Create(turno domain.Turno) (domain.Turno, error) {
 
-	//Falta validar que existan el odontologo y el paciente -- buscar por id
+	err := r.storage.ValidarOdontologoPacienteExist(turno)
+	if err != nil {
+		return domain.Turno{}, err
+	}
 
-	turno, err := r.storage.CreateTurno(turno)
+	turno, err = r.storage.CreateTurno(turno)
 	if err != nil {
 		return domain.Turno{}, errors.New("Se produjo un error cargando un nuevo turno")
 	}
@@ -50,7 +53,10 @@ func (r *repository) Update(id int, turno domain.Turno) error {
 		return errors.New("No se ha encontrado el turno solicitado")
 	}
 
-	// Validar que no haya otro turno con ese odontologo en esa fecha y hora
+	err = r.storage.ValidarOdontologoPacienteExist(turno)
+	if err != nil {
+		return err
+	}
 
 	err = r.storage.UpdateTurno(turno)
 	if err != nil {
