@@ -2,13 +2,14 @@ package odontologo
 
 import (
 	"tp_final/internal/domain"
+	"tp_final/internal/domain/dto"
 )
 
 type Service interface {
 	
 	GetByID(id int) (domain.Odontologo, error)
-	Create(odontologo domain.Odontologo) (domain.Odontologo, error)
-	Update(id int, odontologo domain.Odontologo) (error)
+	Create(odontologo dto.Odontologo) (domain.Odontologo, error)
+	Update(id int, odontologo dto.Odontologo) (error)
 	Delete(id int) error
 
 }
@@ -30,18 +31,20 @@ func (s *service) GetByID(id int) (domain.Odontologo, error) {
 	return odontologo, nil
 }
 
-func (s *service) Create(odontologo domain.Odontologo) (domain.Odontologo, error) {
+func (s *service) Create(odontologo dto.Odontologo) (domain.Odontologo, error) {
 
-	odontologo, err := s.r.Create(odontologo)
+	var odontologoRetornado domain.Odontologo
+
+	odontologoRetornado, err := s.r.Create(odontologo)
 	if err != nil {
 		return domain.Odontologo{}, err
 	}
 
-	return odontologo, nil
+	return odontologoRetornado, nil
 
 }
 
-func (s *service) Update(id int, o domain.Odontologo) error {
+func (s *service) Update(id int, o dto.Odontologo) error {
 
 	odontologo, err := s.r.GetByID(id)
 	if err != nil {
@@ -60,7 +63,14 @@ func (s *service) Update(id int, o domain.Odontologo) error {
 		odontologo.Matricula = o.Matricula
 	}
 
-	err = s.r.Update(id, odontologo)
+
+	var odontologoActualizado dto.Odontologo
+	
+	odontologoActualizado.Nombre = odontologo.Nombre
+	odontologoActualizado.Apellido = odontologo.Apellido
+	odontologoActualizado.Matricula = odontologo.Matricula
+
+	err = s.r.Update(id, odontologoActualizado)
 	if err != nil {
 		return err
 	}

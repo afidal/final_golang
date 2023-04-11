@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"tp_final/internal/domain"
+	"tp_final/internal/domain/dto"
 	"fmt"
 )
 
@@ -34,7 +35,9 @@ func (s *sqlStore) ReadOdontologo(id int) (domain.Odontologo, error) {
 	return odontologo, nil
 }
 
-func (s *sqlStore) CreateOdontologo(odontologo domain.Odontologo) (domain.Odontologo, error) {
+func (s *sqlStore) CreateOdontologo(odontologo dto.Odontologo) (domain.Odontologo, error) {
+
+	var odontologoRetornado domain.Odontologo
 
 	query := "INSERT INTO odontologos (nombre, apellido, matricula) VALUES (?, ?, ?);"
 
@@ -56,13 +59,16 @@ func (s *sqlStore) CreateOdontologo(odontologo domain.Odontologo) (domain.Odonto
 	}
 
 	lastID, _ := result.LastInsertId()
-	odontologo.Id = int(lastID)
+	odontologoRetornado.Id = int(lastID)
+	odontologoRetornado.Nombre = odontologo.Nombre
+	odontologoRetornado.Apellido = odontologo.Apellido
+	odontologoRetornado.Matricula = odontologo.Matricula
 
-	return odontologo, nil
+	return odontologoRetornado, nil
 
 }
 
-func (s *sqlStore) UpdateOdontologo(odontologo domain.Odontologo) error {
+func (s *sqlStore) UpdateOdontologo(id int, odontologo dto.Odontologo) error {
 
 	stmt, err := s.db.Prepare("UPDATE odontologos SET nombre = ?, apellido = ?, matricula = ? WHERE id = ?;")
 	if err != nil {
@@ -71,7 +77,7 @@ func (s *sqlStore) UpdateOdontologo(odontologo domain.Odontologo) error {
 
 	defer stmt.Close()
 
-	_, err = stmt.Exec(odontologo.Nombre, odontologo.Apellido, odontologo.Matricula, odontologo.Id)
+	_, err = stmt.Exec(odontologo.Nombre, odontologo.Apellido, odontologo.Matricula, id)
 	if err != nil {
 		return err
 	}
@@ -122,293 +128,293 @@ func (s *sqlStore) MatriculaExists(matricula string) bool {
 	return false
 }
 
-// Paciente
+// // Paciente
 
-func (s *sqlStore) ReadPaciente(id int) (domain.Paciente, error) {
+// func (s *sqlStore) ReadPaciente(id int) (domain.Paciente, error) {
 
-	var paciente domain.Paciente
+// 	var paciente domain.Paciente
 
-	query := "SELECT * FROM pacientes WHERE id = ?;"
-	row := s.db.QueryRow(query, id)
-	err := row.Scan(&paciente.Id, &paciente.Nombre, &paciente.Apellido, &paciente.Domicilio, &paciente.Dni, &paciente.FechaAlta)
-	if err != nil {
-		return domain.Paciente{}, err
-	}
+// 	query := "SELECT * FROM pacientes WHERE id = ?;"
+// 	row := s.db.QueryRow(query, id)
+// 	err := row.Scan(&paciente.Id, &paciente.Nombre, &paciente.Apellido, &paciente.Domicilio, &paciente.Dni, &paciente.FechaAlta)
+// 	if err != nil {
+// 		return domain.Paciente{}, err
+// 	}
 
-	return paciente, nil
-}
+// 	return paciente, nil
+// }
 
-func (s *sqlStore) CreatePaciente(paciente domain.Paciente) (domain.Paciente, error) {
+// func (s *sqlStore) CreatePaciente(paciente dto.Paciente) (domain.Paciente, error) {
 
-	query := "INSERT INTO pacientes (nombre, apellido, domicilio, dni, fecha_alta) VALUES (?, ?, ?, ?, ?);"
+// 	query := "INSERT INTO pacientes (nombre, apellido, domicilio, dni, fecha_alta) VALUES (?, ?, ?, ?, ?);"
 
-	stmt, err := s.db.Prepare(query)
-	if err != nil {
-		return domain.Paciente{}, err
-	}
+// 	stmt, err := s.db.Prepare(query)
+// 	if err != nil {
+// 		return domain.Paciente{}, err
+// 	}
 
-	defer stmt.Close()
+// 	defer stmt.Close()
 
-	result, err := stmt.Exec(paciente.Nombre, paciente.Apellido, paciente.Domicilio, paciente.Dni, paciente.FechaAlta)
-	if err != nil {
-		return domain.Paciente{}, err
-	}
+// 	result, err := stmt.Exec(paciente.Nombre, paciente.Apellido, paciente.Domicilio, paciente.Dni, paciente.FechaAlta)
+// 	if err != nil {
+// 		return domain.Paciente{}, err
+// 	}
 
-	_, err = result.RowsAffected()
-	if err != nil {
-		return domain.Paciente{}, err
-	}
+// 	_, err = result.RowsAffected()
+// 	if err != nil {
+// 		return domain.Paciente{}, err
+// 	}
 
-	lastID, _ := result.LastInsertId()
-	paciente.Id = int(lastID)
+// 	lastID, _ := result.LastInsertId()
+// 	paciente.Id = int(lastID)
 
-	return paciente, nil
+// 	return paciente, nil
 
-}
+// }
 
-func (s *sqlStore) UpdatePaciente(paciente domain.Paciente) error {
+// func (s *sqlStore) UpdatePaciente(paciente dto.Paciente) error {
 
-	stmt, err := s.db.Prepare("UPDATE pacientes SET nombre = ?, apellido = ?, domicilio = ?, dni = ?, fecha_alta = ? WHERE id = ?;")
-	if err != nil {
-		return err
-	}
+// 	stmt, err := s.db.Prepare("UPDATE pacientes SET nombre = ?, apellido = ?, domicilio = ?, dni = ?, fecha_alta = ? WHERE id = ?;")
+// 	if err != nil {
+// 		return err
+// 	}
 
-	defer stmt.Close()
+// 	defer stmt.Close()
 
-	_, err = stmt.Exec(paciente.Nombre, paciente.Apellido, paciente.Domicilio, paciente.Dni, paciente.FechaAlta, paciente.Id)
-	if err != nil {
-		return err
-	}
+// 	_, err = stmt.Exec(paciente.Nombre, paciente.Apellido, paciente.Domicilio, paciente.Dni, paciente.FechaAlta, paciente.Id)
+// 	if err != nil {
+// 		return err
+// 	}
 
-	return nil
-}
+// 	return nil
+// }
 
-func (s *sqlStore) DeletePaciente(id int) error {
+// func (s *sqlStore) DeletePaciente(id int) error {
 
-	stmt := "DELETE FROM pacientes WHERE id = ?;"
+// 	stmt := "DELETE FROM pacientes WHERE id = ?;"
 
-	result, err := s.db.Exec(stmt, id)
-	if err != nil {
-		return err
-	}
+// 	result, err := s.db.Exec(stmt, id)
+// 	if err != nil {
+// 		return err
+// 	}
 
-	var rows int64
+// 	var rows int64
 
-	rows, err = result.RowsAffected()
-	if err != nil {
-		return err
-	}
+// 	rows, err = result.RowsAffected()
+// 	if err != nil {
+// 		return err
+// 	}
 
-	if rows == 0 {
-		return errors.New("No existe un paciente con el ID indicado")
-	}
+// 	if rows == 0 {
+// 		return errors.New("No existe un paciente con el ID indicado")
+// 	}
 
-	return nil
+// 	return nil
 
-}
+// }
 
-// Verifica si ya existe un paciente con el mismo DNI en la base de datos
-// Asumimos que el DNI es único
-func (s *sqlStore) DniExists(dni string) bool {
+// // Verifica si ya existe un paciente con el mismo DNI en la base de datos
+// // Asumimos que el DNI es único
+// func (s *sqlStore) DniExists(dni string) bool {
 
-	var id int
+// 	var id int
 
-	row := s.db.QueryRow("SELECT id FROM pacientes WHERE dni = ?;", dni)
+// 	row := s.db.QueryRow("SELECT id FROM pacientes WHERE dni = ?;", dni)
 
-	err := row.Scan(&id)
-	if err != nil {
-		return false
-	}
+// 	err := row.Scan(&id)
+// 	if err != nil {
+// 		return false
+// 	}
 
-	if id > 0 {
-		return true
-	}
+// 	if id > 0 {
+// 		return true
+// 	}
 
-	return false
-}
+// 	return false
+// }
 
-// Turno
+// // Turno
 
-func (s *sqlStore) ReadTurnoId(id int) (domain.Turno, error) {
+// // func (s *sqlStore) ReadTurnoId(id int) (domain.Turno, error) {
 
-	var turno domain.Turno
+// // 	var turno domain.Turno
 
-	query := "SELECT * FROM turnos WHERE id = ?;"
-	row := s.db.QueryRow(query, id)
-	fmt.Println("ID",*row)
-	err := row.Scan(&turno.Id, &turno.IdPaciente, &turno.IdOdontologo, &turno.Fecha, &turno.Hora, &turno.Descripcion)
-	if err != nil {
-		return domain.Turno{}, err
-	}
+// // 	query := "SELECT * FROM turnos WHERE id = ?;"
+// // 	row := s.db.QueryRow(query, id)
+// // 	fmt.Println("ID",*row)
+// // 	err := row.Scan(&turno.Id, &turno.IdPaciente, &turno.IdOdontologo, &turno.Fecha, &turno.Hora, &turno.Descripcion)
+// // 	if err != nil {
+// // 		return domain.Turno{}, err
+// // 	}
 
-	return turno, nil
-}
+// // 	return turno, nil
+// // }
 
-// Verifica si el paciente y el odontologo existen en la base de datos
-func (s *sqlStore) ValidarOdontologoPacienteExist(turno domain.Turno) error {
+// // Verifica si el paciente y el odontologo existen en la base de datos
+// func (s *sqlStore) ValidarOdontologoPacienteExist(turno dto.Turno) error {
 
-	_, err := s.ReadOdontologo(turno.IdOdontologo)
-	if err != nil {
-		return errors.New("El odontólogo al que se quiere asignar el turno no existe en la base de datos")
-	}
+// 	_, err := s.ReadOdontologo(turno.IdOdontologo)
+// 	if err != nil {
+// 		return errors.New("El odontólogo al que se quiere asignar el turno no existe en la base de datos")
+// 	}
 
-	_, err = s.ReadPaciente(turno.IdPaciente)
-	if err != nil {
-		return errors.New("El paciente al que se quiere asignar el turno no existe en la base de datos")
-	}
+// 	_, err = s.ReadPaciente(turno.IdPaciente)
+// 	if err != nil {
+// 		return errors.New("El paciente al que se quiere asignar el turno no existe en la base de datos")
+// 	}
 
-	return nil
+// 	return nil
 
-}
+// }
 
-func (s *sqlStore) CreateTurno(turno domain.Turno) (domain.Turno, error) {
+// func (s *sqlStore) CreateTurno(turno dto.Turno) (domain.Turno, error) {
 
-	query := "INSERT INTO turnos (id_paciente, id_odontologo, fecha, hora, descripcion) VALUES (?, ?, ?, ?, ?);"
+// 	query := "INSERT INTO turnos (id_paciente, id_odontologo, fecha, hora, descripcion) VALUES (?, ?, ?, ?, ?);"
 
-	stmt, err := s.db.Prepare(query)
-	if err != nil {
-		return domain.Turno{}, err
-	}
+// 	stmt, err := s.db.Prepare(query)
+// 	if err != nil {
+// 		return domain.Turno{}, err
+// 	}
 
-	defer stmt.Close()
+// 	defer stmt.Close()
 
-	result, err := stmt.Exec(turno.IdPaciente, turno.IdOdontologo, turno.Fecha, turno.Hora, turno.Descripcion)
-	if err != nil {
-		return domain.Turno{}, err
-	}
+// 	result, err := stmt.Exec(turno.IdPaciente, turno.IdOdontologo, turno.Fecha, turno.Hora, turno.Descripcion)
+// 	if err != nil {
+// 		return domain.Turno{}, err
+// 	}
 
-	_, err = result.RowsAffected()
-	if err != nil {
-		return domain.Turno{}, err
-	}
+// 	_, err = result.RowsAffected()
+// 	if err != nil {
+// 		return domain.Turno{}, err
+// 	}
 
-	lastID, _ := result.LastInsertId()
-	turno.Id = int(lastID)
+// 	lastID, _ := result.LastInsertId()
+// 	turno.Id = int(lastID)
 
-	return turno, nil
+// 	return turno, nil
 
-}
+// }
 
-func (s *sqlStore) UpdateTurno(turno domain.Turno) error {
+// func (s *sqlStore) UpdateTurno(turno dto.Turno) error {
 
-	stmt, err := s.db.Prepare("UPDATE turnos SET id_paciente = ?, id_odontologo = ?, fecha = ?, hora = ?, descripcion = ? WHERE id = ?;")
-	if err != nil {
-		return err
-	}
+// 	stmt, err := s.db.Prepare("UPDATE turnos SET id_paciente = ?, id_odontologo = ?, fecha = ?, hora = ?, descripcion = ? WHERE id = ?;")
+// 	if err != nil {
+// 		return err
+// 	}
 
-	defer stmt.Close()
+// 	defer stmt.Close()
 
-	_, err = stmt.Exec(turno.IdPaciente, turno.IdOdontologo, turno.Fecha, turno.Hora, turno.Descripcion, turno.Id)
-	if err != nil {
-		return err
-	}
+// 	_, err = stmt.Exec(turno.IdPaciente, turno.IdOdontologo, turno.Fecha, turno.Hora, turno.Descripcion, turno.Id)
+// 	if err != nil {
+// 		return err
+// 	}
 
-	return nil
+// 	return nil
 
-}
+// }
 
-func (s *sqlStore) DeleteTurno(id int) error {
+// func (s *sqlStore) DeleteTurno(id int) error {
 
-	stmt := "DELETE FROM turnos WHERE id = ?;"
+// 	stmt := "DELETE FROM turnos WHERE id = ?;"
 
-	result, err := s.db.Exec(stmt, id)
-	if err != nil {
-		return err
-	}
+// 	result, err := s.db.Exec(stmt, id)
+// 	if err != nil {
+// 		return err
+// 	}
 
-	var rows int64
+// 	var rows int64
 
-	rows, err = result.RowsAffected()
-	if err != nil {
-		return err
-	}
+// 	rows, err = result.RowsAffected()
+// 	if err != nil {
+// 		return err
+// 	}
 
-	if rows == 0 {
-		return errors.New("No existe un turno con el ID indicado")
-	}
+// 	if rows == 0 {
+// 		return errors.New("No existe un turno con el ID indicado")
+// 	}
 
-	return nil
-}
+// 	return nil
+// }
 
 
-func (s *sqlStore) ReadTurnoDni(dni string) ([]domain.TurnoDatos, error) {
+// func (s *sqlStore) ReadTurnoDni(dni string) ([]dto.TurnoDatos, error) {
 
-	var turnos []domain.TurnoDatos
-	var turno domain.TurnoDatos
+// 	var turnos []domain.TurnoDatos
+// 	var turno domain.TurnoDatos
 	
-	query := "SELECT t.id, o.*, p.* , t.fecha, t.hora, t.descripcion FROM turnos t INNER JOIN odontologos o ON o.id = t.id_odontologo INNER JOIN pacientes p ON p.id = t.id_paciente WHERE p.dni = ?;"
-	rows, err := s.db.Query(query, dni)
-	if err != nil {
-		return []domain.TurnoDatos{}, err
-	}
+// 	query := "SELECT t.id, o.*, p.* , t.fecha, t.hora, t.descripcion FROM turnos t INNER JOIN odontologos o ON o.id = t.id_odontologo INNER JOIN pacientes p ON p.id = t.id_paciente WHERE p.dni = ?;"
+// 	rows, err := s.db.Query(query, dni)
+// 	if err != nil {
+// 		return []domain.TurnoDatos{}, err
+// 	}
 
-	defer rows.Close()
+// 	defer rows.Close()
 
-	for rows.Next() {
+// 	for rows.Next() {
 		
-		err := rows.Scan(&turno.Id, &turno.Odontologo.Id, &turno.Odontologo.Nombre, &turno.Odontologo.Apellido, &turno.Odontologo.Matricula, &turno.Paciente.Id, &turno.Paciente.Nombre, &turno.Paciente.Apellido, &turno.Paciente.Domicilio, &turno.Paciente.Dni, &turno.Paciente.FechaAlta, &turno.Fecha, &turno.Hora, &turno.Descripcion)
-		if err != nil {
-			return []domain.TurnoDatos{}, err
-		}
+// 		err := rows.Scan(&turno.Id, &turno.Odontologo.Id, &turno.Odontologo.Nombre, &turno.Odontologo.Apellido, &turno.Odontologo.Matricula, &turno.Paciente.Id, &turno.Paciente.Nombre, &turno.Paciente.Apellido, &turno.Paciente.Domicilio, &turno.Paciente.Dni, &turno.Paciente.FechaAlta, &turno.Fecha, &turno.Hora, &turno.Descripcion)
+// 		if err != nil {
+// 			return []domain.TurnoDatos{}, err
+// 		}
 
-		turnos = append(turnos, turno)
-	}
+// 		turnos = append(turnos, turno)
+// 	}
 
-	return turnos, nil
-}
+// 	return turnos, nil
+// }
 
 
-func (s *sqlStore) CreateTurnoDniMat(taux domain.TurnoAux) (domain.TurnoAux, error) {
+// func (s *sqlStore) CreateTurnoDniMat(taux dto.TurnoAux) (domain.TurnoAuxId, error) {
 
-	// 1 - Buscamos a que id de paciente corresponde el dni
+// 	// 1 - Buscamos a que id de paciente corresponde el dni
 	
-	var idPaciente int
+// 	var idPaciente int
 
-	row := s.db.QueryRow("SELECT id FROM pacientes WHERE dni = ?;", taux.DniPaciente)
+// 	row := s.db.QueryRow("SELECT id FROM pacientes WHERE dni = ?;", taux.DniPaciente)
 
-	err := row.Scan(&idPaciente)
-	if err != nil {
-		return domain.TurnoAux{}, err
-	}
+// 	err := row.Scan(&idPaciente)
+// 	if err != nil {
+// 		return domain.TurnoAux{}, err
+// 	}
 
-	fmt.Println("Id Paciente:", idPaciente)
+// 	fmt.Println("Id Paciente:", idPaciente)
 
-	// 2 - Buscamos a que id de odontologo corresponde la matricula
+// 	// 2 - Buscamos a que id de odontologo corresponde la matricula
 
-	var idOdontologo int
+// 	var idOdontologo int
 
-	row = s.db.QueryRow("SELECT id FROM odontologos WHERE matricula = ?;", taux.MatriculaOdontologo)
+// 	row = s.db.QueryRow("SELECT id FROM odontologos WHERE matricula = ?;", taux.MatriculaOdontologo)
 	
-	err = row.Scan(&idOdontologo)
-	if err != nil {
-		return domain.TurnoAux{}, err
-	}
+// 	err = row.Scan(&idOdontologo)
+// 	if err != nil {
+// 		return domain.TurnoAux{}, err
+// 	}
 	
-	fmt.Println("Id Odontologo:", idOdontologo)
+// 	fmt.Println("Id Odontologo:", idOdontologo)
 
-	// Creamos el turno
+// 	// Creamos el turno
 
-	query := "INSERT INTO turnos (id_paciente, id_odontologo, fecha, hora, descripcion) VALUES (?, ?, ?, ?, ?);"
+// 	query := "INSERT INTO turnos (id_paciente, id_odontologo, fecha, hora, descripcion) VALUES (?, ?, ?, ?, ?);"
 
-	stmt, err := s.db.Prepare(query)
-	if err != nil {
-		return domain.TurnoAux{}, err
-	}
+// 	stmt, err := s.db.Prepare(query)
+// 	if err != nil {
+// 		return domain.TurnoAux{}, err
+// 	}
 
-	defer stmt.Close()
+// 	defer stmt.Close()
 
-	result, err := stmt.Exec(idPaciente, idOdontologo, taux.Fecha, taux.Hora, taux.Descripcion)
-	if err != nil {
-		return domain.TurnoAux{}, err
-	}
+// 	result, err := stmt.Exec(idPaciente, idOdontologo, taux.Fecha, taux.Hora, taux.Descripcion)
+// 	if err != nil {
+// 		return domain.TurnoAux{}, err
+// 	}
 
-	_, err = result.RowsAffected()
-	if err != nil {
-		return domain.TurnoAux{}, err
-	}
+// 	_, err = result.RowsAffected()
+// 	if err != nil {
+// 		return domain.TurnoAux{}, err
+// 	}
 
-	lastID, _ := result.LastInsertId()
-	taux.Id = int(lastID)
+// 	lastID, _ := result.LastInsertId()
+// 	taux.Id = int(lastID)
 
-	return taux, nil
-}
+// 	return taux, nil
+// }

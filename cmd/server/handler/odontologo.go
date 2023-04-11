@@ -3,7 +3,7 @@ package handler
 import (
 	"errors"
 	"strconv"
-	"tp_final/internal/domain"
+	"tp_final/internal/domain/dto"
 	"tp_final/internal/odontologo"
 	"tp_final/pkg/web"
 
@@ -23,12 +23,13 @@ func NewOdontologoHandler(s odontologo.Service) *odontologoHandler {
 // GetByID godoc
 // @Summary      GET odontologo by ID
 // @Description  Obtiene un odontólogo por su ID
-// @Tags         domain.Odontologo
+// @Tags         Odontologo
+// @Accept		 json
 // @Produce      json
 // @Param        id path int true "Odontologo Id"
-// @Success      200 {object}  web.response
-// @Failure      400 {object}  web.errorResponse
-// @Failure      404 {object}  web.errorResponse
+// @Success      200 {object} web.response
+// @Failure      400 {object} web.errorResponse
+// @Failure      404 {object} web.errorResponse
 // @Router       /odontologos/:id [get]
 func (h *odontologoHandler) GetByID() gin.HandlerFunc {
 
@@ -55,18 +56,18 @@ func (h *odontologoHandler) GetByID() gin.HandlerFunc {
 // Post godoc
 // @Summary      POST odontologo
 // @Description  Crea un nuevo odontólogo
-// @Tags         domain.Odontologo
+// @Tags         Odontologo
 // @Produce      json
 // @Param        token header string true "token"
-// @Param        body body domain.Odontologo true "Odontologo"
-// @Success      201 {object}  web.response
-// @Failure      400 {object}  web.errorResponse
+// @Param        body body dto.Odontologo true "Odontologo"
+// @Success      201 {object} web.response
+// @Failure      400 {object} web.errorResponse
 // @Router       /odontologos [post]
 func (h *odontologoHandler) Post() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
 
-		var odontologo domain.Odontologo
+		var odontologo dto.Odontologo
 
 		err := c.ShouldBindJSON(&odontologo)
 		if err != nil {
@@ -91,7 +92,7 @@ func (h *odontologoHandler) Post() gin.HandlerFunc {
 
 }
 
-func validarCamposOdontologo(odontologo *domain.Odontologo) (bool, error) {
+func validarCamposOdontologo(odontologo *dto.Odontologo) (bool, error) {
 
 	if odontologo.Nombre == "" || odontologo.Apellido == "" || odontologo.Matricula == "" {
 		return false, errors.New("Ha ocurrido un error. Debe completar todos los campos")
@@ -105,14 +106,15 @@ func validarCamposOdontologo(odontologo *domain.Odontologo) (bool, error) {
 // Put godoc
 // @Summary      PUT odontologo by ID
 // @Description  Actualiza un odontologo por su ID
-// @Tags         domain.Odontologo
+// @Tags         Odontologo
+// @Accept		 json
 // @Produce      json
 // @Param        token header string true "token"
-// @Param        body body domain.Odontologo true "Odontologo"
-// @Param        id   path      int  true  "Odontologo Id"
-// @Success      200 {object}  web.response
-// @Failure      400 {object}  web.errorResponse
-// @Failure      404 {object}  web.errorResponse
+// @Param        body body dto.Odontologo true "Odontologo"
+// @Param        id path int true "Odontologo Id"
+// @Success      200 {object} web.response
+// @Failure      400 {object} web.errorResponse
+// @Failure      404 {object} web.errorResponse
 // @Failure      409 {object} web.errorResponse
 // @Router       /odontologos/:id [put]
 func (h *odontologoHandler) Put() gin.HandlerFunc {
@@ -138,7 +140,7 @@ func (h *odontologoHandler) Put() gin.HandlerFunc {
 			return
 		}
 
-		var odontologo domain.Odontologo
+		var odontologo dto.Odontologo
 
 		err = c.ShouldBindJSON(&odontologo)
 		if err != nil {
@@ -165,14 +167,14 @@ func (h *odontologoHandler) Put() gin.HandlerFunc {
 // Patch godoc
 // @Summary      PATCH odontologo by ID
 // @Description  Actualizar parcialmente un odontólogo por su ID
-// @Tags         domain.Odontologo
+// @Tags         Odontologo
 // @Produce      json
 // @Param        token header string true "token"
-// @Param        body body domain.Odontologo true "Odontologo"
-// @Param        id   path      int  true  "Odontologo Id"
-// @Success      200 {object}  web.response
-// @Failure      400 {object}  web.errorResponse
-// @Failure      404 {object}  web.errorResponse
+// @Param        body body dto.Odontologo true "Odontologo"
+// @Param        id path int true "Odontologo Id"
+// @Success      200 {object} web.response
+// @Failure      400 {object} web.errorResponse
+// @Failure      404 {object} web.errorResponse
 // @Failure      409 {object} web.errorResponse
 // @Router       /odontologos/:id [patch]
 func (h *odontologoHandler) Patch() gin.HandlerFunc {
@@ -212,7 +214,7 @@ func (h *odontologoHandler) Patch() gin.HandlerFunc {
 			return
 		}
 
-		update := domain.Odontologo{
+		update := dto.Odontologo{
 			Nombre:    request.Nombre,
 			Apellido:  request.Apellido,
 			Matricula: request.Matricula,
@@ -231,13 +233,13 @@ func (h *odontologoHandler) Patch() gin.HandlerFunc {
 // Delete godoc
 // @Summary      DELETE odontologo by ID
 // @Description  Elimina un odontólogo por su ID
-// @Tags         domain.Odontologo
+// @Tags         Odontologo
 // @Produce      json
 // @Param        token header string true "token"
-// @Param        id   path      int  true  "Odontologo Id"
-// @Success      200 {object}  web.response
-// @Failure      400 {object}  web.errorResponse
-// @Failure      404 {object}  web.errorResponse
+// @Param        id path int true "Odontologo Id"
+// @Success      200 {object} web.response
+// @Failure      400 {object} web.errorResponse
+// @Failure      404 {object} web.errorResponse
 // @Router       /odontologos/:id [delete]
 func (h *odontologoHandler) Delete() gin.HandlerFunc {
 

@@ -31,7 +31,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "domain.Odontologo"
+                    "Odontologo"
                 ],
                 "summary": "POST odontologo",
                 "parameters": [
@@ -48,7 +48,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.Odontologo"
+                            "$ref": "#/definitions/dto.Odontologo"
                         }
                     }
                 ],
@@ -71,11 +71,14 @@ const docTemplate = `{
         "/odontologos/:id": {
             "get": {
                 "description": "Obtiene un odontólogo por su ID",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "domain.Odontologo"
+                    "Odontologo"
                 ],
                 "summary": "GET odontologo by ID",
                 "parameters": [
@@ -110,11 +113,14 @@ const docTemplate = `{
             },
             "put": {
                 "description": "Actualiza un odontologo por su ID",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "domain.Odontologo"
+                    "Odontologo"
                 ],
                 "summary": "PUT odontologo by ID",
                 "parameters": [
@@ -131,7 +137,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.Odontologo"
+                            "$ref": "#/definitions/dto.Odontologo"
                         }
                     },
                     {
@@ -175,7 +181,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "domain.Odontologo"
+                    "Odontologo"
                 ],
                 "summary": "DELETE odontologo by ID",
                 "parameters": [
@@ -221,7 +227,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "domain.Odontologo"
+                    "Odontologo"
                 ],
                 "summary": "PATCH odontologo by ID",
                 "parameters": [
@@ -238,7 +244,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.Odontologo"
+                            "$ref": "#/definitions/dto.Odontologo"
                         }
                     },
                     {
@@ -270,589 +276,6 @@ const docTemplate = `{
                     },
                     "409": {
                         "description": "Conflict",
-                        "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/pacientes": {
-            "post": {
-                "description": "Crea un nuevo paciente",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "domain.Paciente"
-                ],
-                "summary": "POST paciente",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "description": "Paciente",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/domain.Paciente"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/web.response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/pacientes/:id": {
-            "get": {
-                "description": "Obtiene un paciente por su ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "domain.Paciente"
-                ],
-                "summary": "GET paciente by ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Paciente Id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/web.response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "Actualiza un paciente por su ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "domain.Paciente"
-                ],
-                "summary": "PUT paciente by ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "description": "Paciente",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/domain.Paciente"
-                        }
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Odontologo Id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/web.response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
-                        }
-                    },
-                    "409": {
-                        "description": "Conflict",
-                        "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "Elimina un paciente por su ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "domain.Paciente"
-                ],
-                "summary": "DELETE paciente by ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Odontologo Id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/web.response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
-                        }
-                    }
-                }
-            },
-            "patch": {
-                "description": "Actualizar parcialmente un paciente por su ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "domain.Paciente"
-                ],
-                "summary": "PATCH paciente by ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "description": "Paciente",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/domain.Paciente"
-                        }
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Paciente Id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/web.response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
-                        }
-                    },
-                    "409": {
-                        "description": "Conflict",
-                        "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/turnos": {
-            "get": {
-                "description": "Obtiene una lista de turnos por DNI",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "domain.Turno"
-                ],
-                "summary": "GET turnos by DNI",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Turno Dni",
-                        "name": "dni",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/web.response"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Crea un nuevo turno con el ID del paciente y el ID del odontólogo",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "domain.Turno"
-                ],
-                "summary": "POST turno",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "description": "Turno",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/domain.Turno"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/web.response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/turnos/:id": {
-            "get": {
-                "description": "Obtiene un turno por su ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "domain.Turno"
-                ],
-                "summary": "GET turno by ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Turno Id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/web.response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "Actualiza un turno por su ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "domain.Turno"
-                ],
-                "summary": "PUT turno by ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "description": "Turno",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/domain.Turno"
-                        }
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Turno Id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/web.response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
-                        }
-                    },
-                    "409": {
-                        "description": "Conflict",
-                        "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "Elimina un turno por su ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "domain.Turno"
-                ],
-                "summary": "DELETE turno by ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Turno Id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/web.response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
-                        }
-                    }
-                }
-            },
-            "patch": {
-                "description": "Actualizar parcialmente un turno por su ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "domain.Turno"
-                ],
-                "summary": "PATCH turno by ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "description": "Turno",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/domain.Turno"
-                        }
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Turno Id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/web.response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
-                        }
-                    },
-                    "409": {
-                        "description": "Conflict",
-                        "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/turnos/DniMat": {
-            "post": {
-                "description": "Crea un nuevo turno con el DNI del paciente y la matrícula del odontólogo",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "domain.TurnoAux"
-                ],
-                "summary": "POST turno con DNI y Matrícula",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "description": "TurnoAux",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/domain.TurnoAux"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/web.response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/web.errorResponse"
                         }
@@ -862,7 +285,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "domain.Odontologo": {
+        "dto.Odontologo": {
             "type": "object",
             "required": [
                 "apellido",
@@ -873,103 +296,10 @@ const docTemplate = `{
                 "apellido": {
                     "type": "string"
                 },
-                "id": {
-                    "type": "integer"
-                },
                 "matricula": {
                     "type": "string"
                 },
                 "nombre": {
-                    "type": "string"
-                }
-            }
-        },
-        "domain.Paciente": {
-            "type": "object",
-            "required": [
-                "apellido",
-                "dni",
-                "domicilio",
-                "fecha_alta",
-                "nombre"
-            ],
-            "properties": {
-                "apellido": {
-                    "type": "string"
-                },
-                "dni": {
-                    "type": "string"
-                },
-                "domicilio": {
-                    "type": "string"
-                },
-                "fecha_alta": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "nombre": {
-                    "type": "string"
-                }
-            }
-        },
-        "domain.Turno": {
-            "type": "object",
-            "required": [
-                "descripcion",
-                "fecha",
-                "hora",
-                "id_odontologo",
-                "id_paciente"
-            ],
-            "properties": {
-                "descripcion": {
-                    "type": "string"
-                },
-                "fecha": {
-                    "type": "string"
-                },
-                "hora": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "id_odontologo": {
-                    "type": "integer"
-                },
-                "id_paciente": {
-                    "type": "integer"
-                }
-            }
-        },
-        "domain.TurnoAux": {
-            "type": "object",
-            "required": [
-                "descripcion",
-                "dni_paciente",
-                "fecha",
-                "hora",
-                "matricula_odontologo"
-            ],
-            "properties": {
-                "descripcion": {
-                    "type": "string"
-                },
-                "dni_paciente": {
-                    "type": "string"
-                },
-                "fecha": {
-                    "type": "string"
-                },
-                "hora": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "matricula_odontologo": {
                     "type": "string"
                 }
             }

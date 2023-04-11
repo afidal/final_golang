@@ -2,6 +2,7 @@ package store
 
 import (
 	"tp_final/internal/domain"
+	"tp_final/internal/domain/dto"
 )
 
 type StoreInterface interface {
@@ -10,39 +11,39 @@ type StoreInterface interface {
 
 	ReadOdontologo(id int) (domain.Odontologo, error)
 
-	CreateOdontologo(odontologo domain.Odontologo) (domain.Odontologo, error)
+	CreateOdontologo(odontologo dto.Odontologo) (domain.Odontologo, error)
 
-	UpdateOdontologo(odontologo domain.Odontologo) error
+	UpdateOdontologo(id int, odontologo dto.Odontologo) error
 
 	DeleteOdontologo(id int) error
 
 	MatriculaExists(matricula string) bool
 
-	// Paciente
+	// // Paciente
 
-	ReadPaciente(id int) (domain.Paciente, error)
+	// ReadPaciente(id int) (domain.Paciente, error)
 
-	CreatePaciente(paciente domain.Paciente) (domain.Paciente, error)
+	// CreatePaciente(paciente dto.Paciente) (domain.Paciente, error)
 
-	UpdatePaciente(paciente domain.Paciente) error
+	// UpdatePaciente(paciente dto.Paciente) error
 
-	DeletePaciente(id int) error
+	// DeletePaciente(id int) error
 
-	DniExists(dni string) bool
+	// DniExists(dni string) bool
 
-	// Turno
+	// // Turno
 
-	ReadTurnoId(id int) (domain.Turno, error)
+	// ReadTurnoId(id int) (domain.Turno, error)
 
-	CreateTurno(turno domain.Turno) (domain.Turno, error)
+	// CreateTurno(turno dto.Turno) (domain.Turno, error)
 
-	UpdateTurno(turno domain.Turno) error
+	// UpdateTurno(turno dto.Turno) error
 
-	DeleteTurno(id int) error
+	// DeleteTurno(id int) error
 
-	ReadTurnoDni(dni string) ([]domain.TurnoDatos, error)
+	// ReadTurnoDni(dni string) ([]dto.TurnoDatos, error)
 
-	CreateTurnoDniMat(turno domain.TurnoAux) (domain.TurnoAux, error)
+	// CreateTurnoDniMat(turno dto.TurnoAux) (dto.TurnoAuxId, error)
 
-	ValidarOdontologoPacienteExist(turno domain.Turno) error
+	// ValidarOdontologoPacienteExist(turno dto.Turno) error
 }

@@ -9,8 +9,8 @@ import (
 	"tp_final/pkg/store"
 	"tp_final/pkg/middleware"
 	"tp_final/internal/odontologo"
-	"tp_final/internal/paciente"
-	"tp_final/internal/turno"
+	//"tp_final/internal/paciente"
+	//"tp_final/internal/turno"
 	"tp_final/cmd/server/handler"
 	"tp_final/docs"
 	swaggerFiles "github.com/swaggo/files"
@@ -43,13 +43,13 @@ func main() {
 	odontologoService := odontologo.NewOdontologoService(odontologoRepository)
 	odontologoHandler := handler.NewOdontologoHandler(odontologoService)
 	
-	pacienteRepository := paciente.NewPacienteRepository(storage)
-	pacienteService := paciente.NewPacienteService(pacienteRepository)
-	pacienteHandler := handler.NewPacienteHandler(pacienteService)
+	// pacienteRepository := paciente.NewPacienteRepository(storage)
+	// pacienteService := paciente.NewPacienteService(pacienteRepository)
+	// pacienteHandler := handler.NewPacienteHandler(pacienteService)
 
-	turnoRepository := turno.NewTurnoRepository(storage)
-	turnoService := turno.NewTurnoService(turnoRepository)
-	turnoHandler := handler.NewTurnoHandler(turnoService)
+	// turnoRepository := turno.NewTurnoRepository(storage)
+	// turnoService := turno.NewTurnoService(turnoRepository)
+	// turnoHandler := handler.NewTurnoHandler(turnoService)
 
 	r := gin.New()
 	r.Use(gin.Recovery())
@@ -68,27 +68,27 @@ func main() {
 		odontologos.DELETE(":id", middleware.Authentication(), odontologoHandler.Delete())
 	}
 
-	pacientes := r.Group("/pacientes")
+	// pacientes := r.Group("/pacientes")
 
-	{
-		pacientes.GET(":id", pacienteHandler.GetByID())
-		pacientes.POST("", middleware.Authentication(),pacienteHandler.Post())
-		pacientes.PUT(":id", middleware.Authentication(), pacienteHandler.Put())
-		pacientes.PATCH(":id", middleware.Authentication(), pacienteHandler.Patch())
-		pacientes.DELETE(":id", middleware.Authentication(), pacienteHandler.Delete())
-	}
+	// {
+	// 	pacientes.GET(":id", pacienteHandler.GetByID())
+	// 	pacientes.POST("", middleware.Authentication(),pacienteHandler.Post())
+	// 	pacientes.PUT(":id", middleware.Authentication(), pacienteHandler.Put())
+	// 	pacientes.PATCH(":id", middleware.Authentication(), pacienteHandler.Patch())
+	// 	pacientes.DELETE(":id", middleware.Authentication(), pacienteHandler.Delete())
+	// }
 
-	turnos := r.Group("/turnos")
+	// turnos := r.Group("/turnos")
 
-	{
-		turnos.POST("", middleware.Authentication(),turnoHandler.Post())
-		turnos.GET(":id", turnoHandler.GetByID())
-		turnos.PATCH(":id", middleware.Authentication(), turnoHandler.Patch())
-		turnos.PUT(":id", middleware.Authentication(), turnoHandler.Put())
-		turnos.DELETE(":id", middleware.Authentication(), turnoHandler.Delete())
-		turnos.GET("", turnoHandler.GetByDNI())
-		turnos.POST("/DniMat", middleware.Authentication(),turnoHandler.PostDniMat())
-	}
+	// {
+	// 	turnos.POST("", middleware.Authentication(),turnoHandler.Post())
+	// 	turnos.GET(":id", turnoHandler.GetByID())
+	// 	turnos.PATCH(":id", middleware.Authentication(), turnoHandler.Patch())
+	// 	turnos.PUT(":id", middleware.Authentication(), turnoHandler.Put())
+	// 	turnos.DELETE(":id", middleware.Authentication(), turnoHandler.Delete())
+	// 	turnos.GET("", turnoHandler.GetByDNI())
+	// 	turnos.POST("/DniMat", middleware.Authentication(),turnoHandler.PostDniMat())
+	// }
 
 	r.Run(":8080")
 

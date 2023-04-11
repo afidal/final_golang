@@ -3,13 +3,14 @@ package odontologo
 import (
 	"errors"
 	"tp_final/internal/domain"
+	"tp_final/internal/domain/dto"
 	"tp_final/pkg/store"
 )
 
 type Repository interface {
 	GetByID(id int) (domain.Odontologo, error)
-	Create(odontologo domain.Odontologo) (domain.Odontologo, error)
-	Update(id int, odontologo domain.Odontologo) error
+	Create(odontologo dto.Odontologo) (domain.Odontologo, error)
+	Update(id int, odontologo dto.Odontologo) error
 	Delete(id int) error
 }
 
@@ -31,20 +32,22 @@ func (r *repository) GetByID(id int) (domain.Odontologo, error) {
 
 }
 
-func (r *repository) Create(odontologo domain.Odontologo) (domain.Odontologo, error) {
+func (r *repository) Create(odontologo dto.Odontologo) (domain.Odontologo, error) {
+
+	var odontologoRetornado domain.Odontologo
 
 	if r.storage.MatriculaExists(odontologo.Matricula) {
 		return domain.Odontologo{}, errors.New("Ya hay un odontólogo registrado con la misma matrícula")
 	}
 
-	odontologo, err := r.storage.CreateOdontologo(odontologo)
+	odontologoRetornado, err := r.storage.CreateOdontologo(odontologo)
 	if err != nil {
 		return domain.Odontologo{}, errors.New("Se produjo un error cargando un nuevo odontólogo")
 	}
-	return odontologo, nil
+	return odontologoRetornado, nil
 }
 
-func (r *repository) Update(id int, odontologo domain.Odontologo) error {
+func (r *repository) Update(id int, odontologo dto.Odontologo) error {
 
 	od, err := r.storage.ReadOdontologo(id)
 	if err != nil {
@@ -57,7 +60,7 @@ func (r *repository) Update(id int, odontologo domain.Odontologo) error {
 		}
 	}
 
-	err = r.storage.UpdateOdontologo(odontologo)
+	err = r.storage.UpdateOdontologo(id, odontologo)
 	if err != nil {
 		return errors.New("Se produjo un error modificando el odontólogo solicitado")
 	}
