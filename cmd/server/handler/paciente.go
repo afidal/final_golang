@@ -2,7 +2,9 @@ package handler
 
 import (
 	"errors"
+	"regexp"
 	"strconv"
+	"strings"
 	"tp_final/internal/domain/dto"
 	"tp_final/internal/paciente"
 	"tp_final/pkg/web"
@@ -81,6 +83,14 @@ func (h *pacienteHandler) Post() gin.HandlerFunc {
 			return
 		}
 
+		paciente.Dni = strings.ReplaceAll(paciente.Dni, ".", "")
+
+		fechaValida, err := validarFechaAlta(paciente.FechaAlta)
+		if !fechaValida {
+			web.Failure(c, 400, err)
+			return
+		}
+
 		pacienteCreado, err := h.s.Create(paciente)
 		if err != nil {
 			web.Failure(c, 400, err)
@@ -91,24 +101,6 @@ func (h *pacienteHandler) Post() gin.HandlerFunc {
 	}
 
 }
-
-func validarCamposPaciente(paciente *dto.Paciente) (bool, error) {
-
-	if paciente.Nombre == "" || paciente.Apellido == "" || paciente.Domicilio == "" || paciente.Dni == "" || paciente.FechaAlta == "" {
-		return false, errors.New("Ha ocurrido un error. Debe completar todos los campos")
-	}
-
-	return true, nil
-
-}
-
-// func validateDni(dni string) string {
-
-// 	valid_dni := strings.ReplaceAll(dni, ".", "")
-
-// 	return valid_dni
-
-// }
 
 // Put godoc
 // @Summary      PUT paciente by ID
@@ -157,6 +149,14 @@ func (h *pacienteHandler) Put() gin.HandlerFunc {
 
 		camposValidos, err := validarCamposPaciente(&paciente)
 		if !camposValidos {
+			web.Failure(c, 400, err)
+			return
+		}
+
+		paciente.Dni = strings.ReplaceAll(paciente.Dni, ".", "")
+
+		fechaValida, err := validarFechaAlta(paciente.FechaAlta)
+		if !fechaValida {
 			web.Failure(c, 400, err)
 			return
 		}
@@ -224,6 +224,16 @@ func (h *pacienteHandler) Patch() gin.HandlerFunc {
 			return
 		}
 
+		if request.FechaAlta != "" {
+			fechaValida, err := validarFechaAlta(request.FechaAlta)
+			if !fechaValida {
+				web.Failure(c, 400, err)
+				return
+			}
+		}
+
+		request.Dni = strings.ReplaceAll(request.Dni, ".", "")
+
 		update := dto.Paciente{
 			Nombre:    request.Nombre,
 			Apellido:  request.Apellido,
@@ -270,4 +280,25 @@ func (h *pacienteHandler) Delete() gin.HandlerFunc {
 		}
 		web.Success(c, 200, nil)
 	}
+}
+
+// Fx para validaciones de datos
+
+func validarCamposPaciente(paciente *dto.Paciente) (bool, error) {
+
+	if paciente.Nombre == "" || paciente.Apellido == "" || paciente.Domicilio == "" || paciente.Dni == "" || paciente.FechaAlta == "" {
+		return false, errors.New("Ha ocurrido un error. Debe completar todos los campos")
+	}
+
+	return true, nil
+
+}
+
+func validarFechaAlta(fecha string) (bool, error) {
+	re := regexp.MustCompile(`^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d`)
+	if !re.MatchString(fecha) {
+		return false, errors.New("La fecha ingresada es inválida. Debe tener el formato: dd/mm/yyyy")
+	}
+
+	return true, nil
 }

@@ -6,6 +6,7 @@ import (
 	"tp_final/internal/domain/dto"
 	"tp_final/internal/odontologo"
 	"tp_final/pkg/web"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -101,7 +102,6 @@ func validarCamposOdontologo(odontologo *dto.Odontologo) (bool, error) {
 	return true, nil
 
 }
-
 
 // Put godoc
 // @Summary      PUT odontologo by ID

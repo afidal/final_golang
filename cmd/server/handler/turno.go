@@ -2,6 +2,7 @@ package handler
 
 import (
 	"errors"
+	"regexp"
 	"strconv"
 	"tp_final/internal/domain/dto"
 	"tp_final/internal/turno"
@@ -81,6 +82,18 @@ func (h *turnoHandler) Post() gin.HandlerFunc {
 			return
 		}
 
+		fechaValida, err := validarFecha(turno.Fecha)
+		if !fechaValida {
+			web.Failure(c, 400, err)
+			return
+		}
+
+		horaValida, err := validarHora(turno.Hora)
+		if !horaValida {
+			web.Failure(c, 400, err)
+			return
+		}
+
 		turnoCreado, err := h.s.Create(turno)
 		if err != nil {
 			web.Failure(c, 400, err)
@@ -89,16 +102,6 @@ func (h *turnoHandler) Post() gin.HandlerFunc {
 		web.Success(c, 201, turnoCreado)
 
 	}
-
-}
-
-func validarCamposTurno(turno *dto.Turno) (bool, error) {
-
-	if turno.IdPaciente == 0 || turno.IdOdontologo == 0 || turno.Fecha == "" || turno.Hora == "" || turno.Descripcion == "" {
-		return false, errors.New("Ha ocurrido un error. Debe completar todos los campos")
-	}
-
-	return true, nil
 
 }
 
@@ -149,6 +152,18 @@ func (h *turnoHandler) Put() gin.HandlerFunc {
 
 		camposValidos, err := validarCamposTurno(&turno)
 		if !camposValidos {
+			web.Failure(c, 400, err)
+			return
+		}
+
+		fechaValida, err := validarFecha(turno.Fecha)
+		if !fechaValida {
+			web.Failure(c, 400, err)
+			return
+		}
+
+		horaValida, err := validarHora(turno.Hora)
+		if !horaValida {
 			web.Failure(c, 400, err)
 			return
 		}
@@ -213,6 +228,22 @@ func (h *turnoHandler) Patch() gin.HandlerFunc {
 		if err != nil {
 			web.Failure(c, 400, errors.New("Json inválido"))
 			return
+		}
+
+		if request.Fecha != "" {
+			fechaValida, err := validarFecha(request.Fecha)
+			if !fechaValida {
+				web.Failure(c, 400, err)
+				return
+			}
+		}
+
+		if request.Hora != "" {
+			horaValida, err := validarHora(request.Hora)
+			if !horaValida {
+				web.Failure(c, 400, err)
+				return
+			}
 		}
 
 		update := dto.Turno{
@@ -317,6 +348,18 @@ func (h *turnoHandler) PostDniMat() gin.HandlerFunc {
 			return
 		}
 
+		fechaValida, err := validarFecha(turno.Fecha)
+		if !fechaValida {
+			web.Failure(c, 400, err)
+			return
+		}
+
+		horaValida, err := validarHora(turno.Hora)
+		if !horaValida {
+			web.Failure(c, 400, err)
+			return
+		}
+
 		turnoCreado, err := h.s.CreateDniMat(turno)
 		if err != nil {
 			web.Failure(c, 400, err)
@@ -328,9 +371,42 @@ func (h *turnoHandler) PostDniMat() gin.HandlerFunc {
 
 }
 
+// Fx para validaciones de datos
+
 func validarCamposTurnoAux(turno *dto.TurnoAux) (bool, error) {
 
 	if turno.DniPaciente == "" || turno.MatriculaOdontologo == "" || turno.Fecha == "" || turno.Hora == "" || turno.Descripcion == "" {
+		return false, errors.New("Ha ocurrido un error. Debe completar todos los campos")
+	}
+
+	return true, nil
+
+}
+
+func validarFecha(fecha string) (bool, error) {
+
+	re := regexp.MustCompile(`^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d`)
+	if !re.MatchString(fecha) {
+		return false, errors.New("La fecha ingresada es inválida. Debe tener el formato: dd/mm/yyyy")
+	}
+
+	return true, nil
+}
+
+func validarHora(hora string) (bool, error) {
+
+	re := regexp.MustCompile(`^([0-9]|0[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9])$`)
+	if !re.MatchString(hora) {
+		return false, errors.New("La hora ingresada es inválida. Debe tener el formato: hh:mm")
+	}
+
+	return true, nil
+
+}
+
+func validarCamposTurno(turno *dto.Turno) (bool, error) {
+
+	if turno.IdPaciente == 0 || turno.IdOdontologo == 0 || turno.Fecha == "" || turno.Hora == "" || turno.Descripcion == "" {
 		return false, errors.New("Ha ocurrido un error. Debe completar todos los campos")
 	}
 

@@ -42,7 +42,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"apellido\": \"García\",\n    \"nombre\": \"Carlos\",\n    \"matricula\": \"MN11111\"\n}",
+							"raw": "{\n    \"apellido\": \"Jorge\",\n    \"nombre\": \"Pérez\",\n    \"matricula\": \"MN67891\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -76,7 +76,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n       \"apellido\": \"Javier\",\n        \"nombre\": \"Lopez\",\n        \"matricula\": \"MN12345\"\n}",
+							"raw": "{\n    \"apellido\": \"Javier\",\n    \"nombre\": \"Lopez\",\n    \"matricula\": \"MN12345\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -111,7 +111,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"matricula\": \"MN00001\"\n}",
+							"raw": "{\n    \"matricula\": \"MN11111\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -197,7 +197,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"nombre\": \"Ana\",\n    \"apellido\": \"Fidalgo\",\n    \"domicilio\": \"Calle inventada 123\",\n    \"dni\": \"30744221\",\n    \"fecha_alta\": \"05/03/2020\"\n}",
+							"raw": "{\n    \"nombre\": \"Rosa\",\n    \"apellido\": \"Alvarez\",\n    \"domicilio\": \"Besares 2857\",\n    \"dni\": \"30744221\",\n    \"fecha_alta\": \"05/03/2020\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -231,7 +231,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"nombre\": \"María Laura\",\n    \"apellido\": \"Fernández\",\n    \"domicilio\": \"Mi calle 555\",\n    \"dni\": \"23001234\",\n    \"fecha_alta\": \"07/07/2021\"\n}",
+							"raw": "{\n    \"nombre\": \"María Laura\",\n    \"apellido\": \"Fernández\",\n    \"domicilio\": \"Mi calle 555\",\n    \"dni\": \"30744221\",\n    \"fecha_alta\": \"07/07/2021\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -352,7 +352,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id_paciente\": 1,\n    \"id_odontologo\": 1,\n    \"fecha\": \"02/05/2023\",\n    \"hora\": \"17:00\",\n    \"descripcion\": \"Tratamiento de Conducto\"\n}",
+							"raw": "{\n    \"id_paciente\": 1,\n    \"id_odontologo\": 1,\n    \"fecha\": \"09/06/2023\",\n    \"hora\": \"12:00\",\n    \"descripcion\": \"Tratamiento de Conducto\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -386,7 +386,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id_paciente\": 1,\n    \"id_odontologo\": 1,\n    \"fecha\": \"03/09/2023\",\n    \"hora\": \"17:00\",\n    \"descripcion\": \"Tratamiento de conducto\"\n}",
+							"raw": "{\n    \"id_paciente\": 1,\n    \"id_odontologo\": 1,\n    \"fecha\": \"03/09/2023\",\n    \"hora\": \"17:00\",\n    \"descripcion\": \"Ortodoncia\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -394,7 +394,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/turnos/4",
+							"raw": "http://localhost:8080/turnos/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -402,7 +402,7 @@
 							"port": "8080",
 							"path": [
 								"turnos",
-								"4"
+								"1"
 							]
 						}
 					},
@@ -429,7 +429,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/turnos/15",
+							"raw": "http://localhost:8080/turnos/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -437,7 +437,7 @@
 							"port": "8080",
 							"path": [
 								"turnos",
-								"15"
+								"1"
 							]
 						}
 					},
@@ -482,7 +482,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"dni_paciente\": \"30744221\",\n    \"matricula_odontologo\": \"MN12345\",\n    \"fecha\": \"17/07/2023\",\n    \"hora\": \"17:17\",\n    \"descripcion\": \"Extracción de muelas de juicio\"\n}",
+							"raw": "{\n    \"dni_paciente\": \"307442221\",\n    \"matricula_odontologo\": \"MN12345\",\n    \"fecha\": \"17/07/2023\",\n    \"hora\": \"17:17\",\n    \"descripcion\": \"Extracción de muelas de juicio\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -510,7 +510,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/turnos?dni=23001234",
+							"raw": "http://localhost:8080/turnos?dni=30744221",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -522,7 +522,7 @@
 							"query": [
 								{
 									"key": "dni",
-									"value": "23001234"
+									"value": "30744221"
 								}
 							]
 						}
