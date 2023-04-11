@@ -20,6 +20,27 @@ definitions:
     - fecha_alta
     - nombre
     type: object
+  domain.Turno:
+    properties:
+      descripcion:
+        type: string
+      fecha:
+        type: string
+      hora:
+        type: string
+      id:
+        type: integer
+      id_odontologo:
+        type: integer
+      id_paciente:
+        type: integer
+    required:
+    - descripcion
+    - fecha
+    - hora
+    - id_odontologo
+    - id_paciente
+    type: object
   dto.Odontologo:
     properties:
       apellido:
@@ -51,6 +72,44 @@ definitions:
     - domicilio
     - fecha_alta
     - nombre
+    type: object
+  dto.Turno:
+    properties:
+      descripcion:
+        type: string
+      fecha:
+        type: string
+      hora:
+        type: string
+      id_odontologo:
+        type: integer
+      id_paciente:
+        type: integer
+    required:
+    - descripcion
+    - fecha
+    - hora
+    - id_odontologo
+    - id_paciente
+    type: object
+  dto.TurnoAux:
+    properties:
+      descripcion:
+        type: string
+      dni_paciente:
+        type: string
+      fecha:
+        type: string
+      hora:
+        type: string
+      matricula_odontologo:
+        type: string
+    required:
+    - descripcion
+    - dni_paciente
+    - fecha
+    - hora
+    - matricula_odontologo
     type: object
   web.errorResponse:
     properties:
@@ -430,4 +489,231 @@ paths:
       summary: PUT paciente by ID
       tags:
       - Paciente
+  /turnos:
+    get:
+      description: Obtiene una lista de turnos por DNI
+      parameters:
+      - description: Turno Dni
+        in: query
+        name: dni
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: GET turnos by DNI
+      tags:
+      - Turno
+    post:
+      consumes:
+      - application/json
+      description: Crea un nuevo turno con el ID del paciente y el ID del odontólogo
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Turno
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Turno'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/web.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: POST turno
+      tags:
+      - Turno
+  /turnos/:id:
+    delete:
+      description: Elimina un turno por su ID
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Turno Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: DELETE turno by ID
+      tags:
+      - Turno
+    get:
+      description: Obtiene un turno por su ID
+      parameters:
+      - description: Turno Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: GET turno by ID
+      tags:
+      - Turno
+    patch:
+      description: Actualizar parcialmente un turno por su ID
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Turno
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.Turno'
+      - description: Turno Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: PATCH turno by ID
+      tags:
+      - Turno
+    put:
+      consumes:
+      - application/json
+      description: Actualiza un turno por su ID
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Turno
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Turno'
+      - description: Turno Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: PUT turno by ID
+      tags:
+      - Turno
+  /turnos/DniMat:
+    post:
+      consumes:
+      - application/json
+      description: Crea un nuevo turno con el DNI del paciente y la matrícula del
+        odontólogo
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: TurnoAux
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.TurnoAux'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/web.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: POST turno con DNI y Matrícula
+      tags:
+      - Turno
 swagger: "2.0"

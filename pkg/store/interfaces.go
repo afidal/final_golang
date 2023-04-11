@@ -33,17 +33,17 @@ type StoreInterface interface {
 
 	// // Turno
 
-	// ReadTurnoId(id int) (domain.Turno, error)
+	ReadTurnoId(id int) (domain.Turno, error)
 
-	// CreateTurno(turno dto.Turno) (domain.Turno, error)
+	CreateTurno(turno dto.Turno) (domain.Turno, error)
 
-	// UpdateTurno(turno dto.Turno) error
+	UpdateTurno(id int, turno dto.Turno) error
 
-	// DeleteTurno(id int) error
+	DeleteTurno(id int) error
 
-	// ReadTurnoDni(dni string) ([]dto.TurnoDatos, error)
+	ReadTurnoDni(dni string) ([]dto.TurnoDatos, error)
 
-	// CreateTurnoDniMat(turno dto.TurnoAux) (dto.TurnoAuxId, error)
+	CreateTurnoDniMat(turno dto.TurnoAux) (dto.TurnoAuxId, error)
 
-	// ValidarOdontologoPacienteExist(turno dto.Turno) error
+	ValidarOdontologoPacienteExist(turno dto.Turno) error
 }

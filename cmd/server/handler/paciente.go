@@ -6,6 +6,7 @@ import (
 	"tp_final/internal/domain/dto"
 	"tp_final/internal/paciente"
 	"tp_final/pkg/web"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -80,7 +81,6 @@ func (h *pacienteHandler) Post() gin.HandlerFunc {
 			return
 		}
 
-
 		pacienteCreado, err := h.s.Create(paciente)
 		if err != nil {
 			web.Failure(c, 400, err)
@@ -102,7 +102,6 @@ func validarCamposPaciente(paciente *dto.Paciente) (bool, error) {
 
 }
 
-
 // func validateDni(dni string) string {
 
 // 	valid_dni := strings.ReplaceAll(dni, ".", "")
@@ -110,7 +109,6 @@ func validarCamposPaciente(paciente *dto.Paciente) (bool, error) {
 // 	return valid_dni
 
 // }
-
 
 // Put godoc
 // @Summary      PUT paciente by ID
