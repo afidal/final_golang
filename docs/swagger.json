@@ -18,6 +18,9 @@
         "/odontologos": {
             "post": {
                 "description": "Crea un nuevo odontólogo",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -214,6 +217,9 @@
             },
             "patch": {
                 "description": "Actualizar parcialmente un odontólogo por su ID",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -273,9 +279,301 @@
                     }
                 }
             }
+        },
+        "/pacientes": {
+            "post": {
+                "description": "Crea un nuevo paciente",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Paciente"
+                ],
+                "summary": "POST paciente",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Paciente",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.Paciente"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/pacientes/:id": {
+            "get": {
+                "description": "Obtiene un paciente por su ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Paciente"
+                ],
+                "summary": "GET paciente by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Paciente Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Actualiza un paciente por su ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Paciente"
+                ],
+                "summary": "PUT paciente by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Paciente",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.Paciente"
+                        }
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Odontologo Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Elimina un paciente por su ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Paciente"
+                ],
+                "summary": "DELETE paciente by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Odontologo Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Actualizar parcialmente un paciente por su ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Paciente"
+                ],
+                "summary": "PATCH paciente by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Paciente",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.Paciente"
+                        }
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Paciente Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "domain.Paciente": {
+            "type": "object",
+            "required": [
+                "apellido",
+                "dni",
+                "domicilio",
+                "fecha_alta",
+                "nombre"
+            ],
+            "properties": {
+                "apellido": {
+                    "type": "string"
+                },
+                "dni": {
+                    "type": "string"
+                },
+                "domicilio": {
+                    "type": "string"
+                },
+                "fecha_alta": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "nombre": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.Odontologo": {
             "type": "object",
             "required": [
@@ -288,6 +586,33 @@
                     "type": "string"
                 },
                 "matricula": {
+                    "type": "string"
+                },
+                "nombre": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.Paciente": {
+            "type": "object",
+            "required": [
+                "apellido",
+                "dni",
+                "domicilio",
+                "fecha_alta",
+                "nombre"
+            ],
+            "properties": {
+                "apellido": {
+                    "type": "string"
+                },
+                "dni": {
+                    "type": "string"
+                },
+                "domicilio": {
+                    "type": "string"
+                },
+                "fecha_alta": {
                     "type": "string"
                 },
                 "nombre": {

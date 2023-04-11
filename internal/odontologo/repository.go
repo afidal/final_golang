@@ -34,8 +34,6 @@ func (r *repository) GetByID(id int) (domain.Odontologo, error) {
 
 func (r *repository) Create(odontologo dto.Odontologo) (domain.Odontologo, error) {
 
-	var odontologoRetornado domain.Odontologo
-
 	if r.storage.MatriculaExists(odontologo.Matricula) {
 		return domain.Odontologo{}, errors.New("Ya hay un odontólogo registrado con la misma matrícula")
 	}

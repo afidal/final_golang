@@ -33,8 +33,6 @@ func (s *service) GetByID(id int) (domain.Odontologo, error) {
 
 func (s *service) Create(odontologo dto.Odontologo) (domain.Odontologo, error) {
 
-	var odontologoRetornado domain.Odontologo
-
 	odontologoRetornado, err := s.r.Create(odontologo)
 	if err != nil {
 		return domain.Odontologo{}, err
@@ -62,7 +60,6 @@ func (s *service) Update(id int, o dto.Odontologo) error {
 	if o.Matricula != "" {
 		odontologo.Matricula = o.Matricula
 	}
-
 
 	var odontologoActualizado dto.Odontologo
 	

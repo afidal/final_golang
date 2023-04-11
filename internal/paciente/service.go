@@ -1,88 +1,98 @@
 package paciente
 
-// import (
-// 	"tp_final/internal/domain"
-// )
+import (
+	"tp_final/internal/domain"
+	"tp_final/internal/domain/dto"
+)
 
-// type Service interface {
+type Service interface {
 	
-// 	GetByID(id int) (domain.Paciente, error)
-// 	Create(paciente domain.Paciente) (domain.Paciente, error)
-// 	Update(id int, paciente domain.Paciente) (error)
-// 	Delete(id int) error
+	GetByID(id int) (domain.Paciente, error)
+	Create(paciente dto.Paciente) (domain.Paciente, error)
+	Update(id int, paciente dto.Paciente) (error)
+	Delete(id int) error
 	
-// }
+}
 
-// type service struct {
-// 	r Repository
-// }
+type service struct {
+	r Repository
+}
 
-// func NewPacienteService(r Repository) Service {
-// 	return &service{r}
-// }
+func NewPacienteService(r Repository) Service {
+	return &service{r}
+}
 
-// func (s *service) GetByID(id int) (domain.Paciente, error) {
+func (s *service) GetByID(id int) (domain.Paciente, error) {
 
-// 	paciente, err := s.r.GetByID(id)
-// 	if err != nil {
-// 		return domain.Paciente{}, err
-// 	}
-// 	return paciente, nil
-// }
+	paciente, err := s.r.GetByID(id)
+	if err != nil {
+		return domain.Paciente{}, err
+	}
+	return paciente, nil
+}
 
-// func (s *service) Create(paciente domain.Paciente) (domain.Paciente, error) {
+func (s *service) Create(paciente dto.Paciente) (domain.Paciente, error) {
 
-// 	paciente, err := s.r.Create(paciente)
-// 	if err != nil {
-// 		return domain.Paciente{}, err
-// 	}
+	pacienteRetornado, err := s.r.Create(paciente)
+	if err != nil {
+		return domain.Paciente{}, err
+	}
 
-// 	return paciente, nil
+	return pacienteRetornado, nil
 
-// }
+}
 
-// func (s *service) Update(id int, paciente domain.Paciente) error {
+func (s *service) Update(id int, p dto.Paciente) error {
 
-// 	p, err := s.r.GetByID(id)
-// 	if err != nil {
-// 		return err
-// 	}
+	paciente, err := s.r.GetByID(id)
+	if err != nil {
+		return err
+	}
 
-// 	if paciente.Nombre != "" {
-// 		p.Nombre = paciente.Nombre
-// 	}
+	if p.Nombre != "" {
+		paciente.Nombre = p.Nombre
+	}
 
-// 	if paciente.Apellido != "" {
-// 		p.Apellido = paciente.Apellido
-// 	}
+	if p.Apellido != "" {
+		paciente.Apellido = p.Apellido
+	}
 
-// 	if paciente.Domicilio != "" {
-// 		p.Domicilio = paciente.Domicilio
-// 	}
+	if p.Domicilio != "" {
+		paciente.Domicilio = p.Domicilio
+	}
 
-// 	if paciente.Dni != "" {
-// 		p.Dni = paciente.Dni
-// 	}
+	if p.Dni != "" {
+		paciente.Dni = p.Dni
+	}
 
-// 	if paciente.FechaAlta != "" {
-// 		p.FechaAlta = paciente.FechaAlta
-// 	}
+	if p.FechaAlta != "" {
+		paciente.FechaAlta = p.FechaAlta
+	}
 
-// 	err = s.r.Update(id, p)
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	return nil
-
-// }
-
-// func (s *service) Delete(id int) error {
+	var pacienteActualizado dto.Paciente
 	
-// 	err := s.r.Delete(id)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	return nil
+	pacienteActualizado.Nombre = paciente.Nombre
+	pacienteActualizado.Apellido = paciente.Apellido
+	pacienteActualizado.Domicilio = paciente.Domicilio
+	pacienteActualizado.Dni = paciente.Dni
+	pacienteActualizado.FechaAlta = paciente.FechaAlta
+	
 
-// }
+	err = s.r.Update(id, pacienteActualizado)
+	if err != nil {
+		return err
+	}
+
+	return nil
+
+}
+
+func (s *service) Delete(id int) error {
+	
+	err := s.r.Delete(id)
+	if err != nil {
+		return err
+	}
+	return nil
+
+}

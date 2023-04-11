@@ -19,17 +19,17 @@ type StoreInterface interface {
 
 	MatriculaExists(matricula string) bool
 
-	// // Paciente
+	// Paciente
 
-	// ReadPaciente(id int) (domain.Paciente, error)
+	ReadPaciente(id int) (domain.Paciente, error)
 
-	// CreatePaciente(paciente dto.Paciente) (domain.Paciente, error)
+	CreatePaciente(paciente dto.Paciente) (domain.Paciente, error)
 
-	// UpdatePaciente(paciente dto.Paciente) error
+	UpdatePaciente(id int, paciente dto.Paciente) error
 
-	// DeletePaciente(id int) error
+	DeletePaciente(id int) error
 
-	// DniExists(dni string) bool
+	DniExists(dni string) bool
 
 	// // Turno
 

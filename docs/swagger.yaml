@@ -1,4 +1,25 @@
 definitions:
+  domain.Paciente:
+    properties:
+      apellido:
+        type: string
+      dni:
+        type: string
+      domicilio:
+        type: string
+      fecha_alta:
+        type: string
+      id:
+        type: integer
+      nombre:
+        type: string
+    required:
+    - apellido
+    - dni
+    - domicilio
+    - fecha_alta
+    - nombre
+    type: object
   dto.Odontologo:
     properties:
       apellido:
@@ -10,6 +31,25 @@ definitions:
     required:
     - apellido
     - matricula
+    - nombre
+    type: object
+  dto.Paciente:
+    properties:
+      apellido:
+        type: string
+      dni:
+        type: string
+      domicilio:
+        type: string
+      fecha_alta:
+        type: string
+      nombre:
+        type: string
+    required:
+    - apellido
+    - dni
+    - domicilio
+    - fecha_alta
     - nombre
     type: object
   web.errorResponse:
@@ -40,6 +80,8 @@ info:
 paths:
   /odontologos:
     post:
+      consumes:
+      - application/json
       description: Crea un nuevo odontólogo
       parameters:
       - description: token
@@ -128,6 +170,8 @@ paths:
       tags:
       - Odontologo
     patch:
+      consumes:
+      - application/json
       description: Actualizar parcialmente un odontólogo por su ID
       parameters:
       - description: token
@@ -211,4 +255,179 @@ paths:
       summary: PUT odontologo by ID
       tags:
       - Odontologo
+  /pacientes:
+    post:
+      consumes:
+      - application/json
+      description: Crea un nuevo paciente
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Paciente
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Paciente'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/web.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: POST paciente
+      tags:
+      - Paciente
+  /pacientes/:id:
+    delete:
+      description: Elimina un paciente por su ID
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Odontologo Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: DELETE paciente by ID
+      tags:
+      - Paciente
+    get:
+      description: Obtiene un paciente por su ID
+      parameters:
+      - description: Paciente Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: GET paciente by ID
+      tags:
+      - Paciente
+    patch:
+      consumes:
+      - application/json
+      description: Actualizar parcialmente un paciente por su ID
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Paciente
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.Paciente'
+      - description: Paciente Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: PATCH paciente by ID
+      tags:
+      - Paciente
+    put:
+      consumes:
+      - application/json
+      description: Actualiza un paciente por su ID
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Paciente
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.Paciente'
+      - description: Odontologo Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: PUT paciente by ID
+      tags:
+      - Paciente
 swagger: "2.0"

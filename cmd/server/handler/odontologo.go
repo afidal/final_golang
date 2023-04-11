@@ -6,7 +6,6 @@ import (
 	"tp_final/internal/domain/dto"
 	"tp_final/internal/odontologo"
 	"tp_final/pkg/web"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -57,6 +56,7 @@ func (h *odontologoHandler) GetByID() gin.HandlerFunc {
 // @Summary      POST odontologo
 // @Description  Crea un nuevo odontólogo
 // @Tags         Odontologo
+// @Accept		 json
 // @Produce      json
 // @Param        token header string true "token"
 // @Param        body body dto.Odontologo true "Odontologo"
@@ -168,6 +168,7 @@ func (h *odontologoHandler) Put() gin.HandlerFunc {
 // @Summary      PATCH odontologo by ID
 // @Description  Actualizar parcialmente un odontólogo por su ID
 // @Tags         Odontologo
+// @Accept		 json
 // @Produce      json
 // @Param        token header string true "token"
 // @Param        body body dto.Odontologo true "Odontologo"

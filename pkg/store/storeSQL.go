@@ -128,110 +128,117 @@ func (s *sqlStore) MatriculaExists(matricula string) bool {
 	return false
 }
 
-// // Paciente
+// Paciente
 
-// func (s *sqlStore) ReadPaciente(id int) (domain.Paciente, error) {
+func (s *sqlStore) ReadPaciente(id int) (domain.Paciente, error) {
 
-// 	var paciente domain.Paciente
+	var paciente domain.Paciente
 
-// 	query := "SELECT * FROM pacientes WHERE id = ?;"
-// 	row := s.db.QueryRow(query, id)
-// 	err := row.Scan(&paciente.Id, &paciente.Nombre, &paciente.Apellido, &paciente.Domicilio, &paciente.Dni, &paciente.FechaAlta)
-// 	if err != nil {
-// 		return domain.Paciente{}, err
-// 	}
+	query := "SELECT * FROM pacientes WHERE id = ?;"
+	row := s.db.QueryRow(query, id)
+	err := row.Scan(&paciente.Id, &paciente.Nombre, &paciente.Apellido, &paciente.Domicilio, &paciente.Dni, &paciente.FechaAlta)
+	if err != nil {
+		return domain.Paciente{}, err
+	}
 
-// 	return paciente, nil
-// }
+	return paciente, nil
+}
 
-// func (s *sqlStore) CreatePaciente(paciente dto.Paciente) (domain.Paciente, error) {
+func (s *sqlStore) CreatePaciente(paciente dto.Paciente) (domain.Paciente, error) {
 
-// 	query := "INSERT INTO pacientes (nombre, apellido, domicilio, dni, fecha_alta) VALUES (?, ?, ?, ?, ?);"
+	var pacienteRetornado domain.Paciente
 
-// 	stmt, err := s.db.Prepare(query)
-// 	if err != nil {
-// 		return domain.Paciente{}, err
-// 	}
+	query := "INSERT INTO pacientes (nombre, apellido, domicilio, dni, fecha_alta) VALUES (?, ?, ?, ?, ?);"
 
-// 	defer stmt.Close()
+	stmt, err := s.db.Prepare(query)
+	if err != nil {
+		return domain.Paciente{}, err
+	}
 
-// 	result, err := stmt.Exec(paciente.Nombre, paciente.Apellido, paciente.Domicilio, paciente.Dni, paciente.FechaAlta)
-// 	if err != nil {
-// 		return domain.Paciente{}, err
-// 	}
+	defer stmt.Close()
 
-// 	_, err = result.RowsAffected()
-// 	if err != nil {
-// 		return domain.Paciente{}, err
-// 	}
+	result, err := stmt.Exec(paciente.Nombre, paciente.Apellido, paciente.Domicilio, paciente.Dni, paciente.FechaAlta)
+	if err != nil {
+		return domain.Paciente{}, err
+	}
 
-// 	lastID, _ := result.LastInsertId()
-// 	paciente.Id = int(lastID)
+	_, err = result.RowsAffected()
+	if err != nil {
+		return domain.Paciente{}, err
+	}
 
-// 	return paciente, nil
+	lastID, _ := result.LastInsertId()
+	pacienteRetornado.Id = int(lastID)
+	pacienteRetornado.Nombre = paciente.Nombre
+	pacienteRetornado.Apellido = paciente.Apellido
+	pacienteRetornado.Domicilio = paciente.Domicilio
+	pacienteRetornado.Dni = paciente.Dni
+	pacienteRetornado.FechaAlta = paciente.FechaAlta
 
-// }
+	return pacienteRetornado, nil
 
-// func (s *sqlStore) UpdatePaciente(paciente dto.Paciente) error {
+}
 
-// 	stmt, err := s.db.Prepare("UPDATE pacientes SET nombre = ?, apellido = ?, domicilio = ?, dni = ?, fecha_alta = ? WHERE id = ?;")
-// 	if err != nil {
-// 		return err
-// 	}
+func (s *sqlStore) UpdatePaciente(id int, paciente dto.Paciente) error {
 
-// 	defer stmt.Close()
+	stmt, err := s.db.Prepare("UPDATE pacientes SET nombre = ?, apellido = ?, domicilio = ?, dni = ?, fecha_alta = ? WHERE id = ?;")
+	if err != nil {
+		return err
+	}
 
-// 	_, err = stmt.Exec(paciente.Nombre, paciente.Apellido, paciente.Domicilio, paciente.Dni, paciente.FechaAlta, paciente.Id)
-// 	if err != nil {
-// 		return err
-// 	}
+	defer stmt.Close()
 
-// 	return nil
-// }
+	_, err = stmt.Exec(paciente.Nombre, paciente.Apellido, paciente.Domicilio, paciente.Dni, paciente.FechaAlta, id)
+	if err != nil {
+		return err
+	}
 
-// func (s *sqlStore) DeletePaciente(id int) error {
+	return nil
+}
 
-// 	stmt := "DELETE FROM pacientes WHERE id = ?;"
+func (s *sqlStore) DeletePaciente(id int) error {
 
-// 	result, err := s.db.Exec(stmt, id)
-// 	if err != nil {
-// 		return err
-// 	}
+	stmt := "DELETE FROM pacientes WHERE id = ?;"
 
-// 	var rows int64
+	result, err := s.db.Exec(stmt, id)
+	if err != nil {
+		return err
+	}
 
-// 	rows, err = result.RowsAffected()
-// 	if err != nil {
-// 		return err
-// 	}
+	var rows int64
 
-// 	if rows == 0 {
-// 		return errors.New("No existe un paciente con el ID indicado")
-// 	}
+	rows, err = result.RowsAffected()
+	if err != nil {
+		return err
+	}
 
-// 	return nil
+	if rows == 0 {
+		return errors.New("No existe un paciente con el ID indicado")
+	}
 
-// }
+	return nil
 
-// // Verifica si ya existe un paciente con el mismo DNI en la base de datos
-// // Asumimos que el DNI es único
-// func (s *sqlStore) DniExists(dni string) bool {
+}
 
-// 	var id int
+// Verifica si ya existe un paciente con el mismo DNI en la base de datos
+// Asumimos que el DNI es único
+func (s *sqlStore) DniExists(dni string) bool {
 
-// 	row := s.db.QueryRow("SELECT id FROM pacientes WHERE dni = ?;", dni)
+	var id int
 
-// 	err := row.Scan(&id)
-// 	if err != nil {
-// 		return false
-// 	}
+	row := s.db.QueryRow("SELECT id FROM pacientes WHERE dni = ?;", dni)
 
-// 	if id > 0 {
-// 		return true
-// 	}
+	err := row.Scan(&id)
+	if err != nil {
+		return false
+	}
 
-// 	return false
-// }
+	if id > 0 {
+		return true
+	}
+
+	return false
+}
 
 // // Turno
 
